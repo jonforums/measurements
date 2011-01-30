@@ -1,3 +1,5 @@
 ## What?
 
+A mini-framework for interrogating your Ruby code.
+
 ## TODO
