@@ -3,3 +3,8 @@
 A mini-framework for running your own Ruby Inquisition.
 
 ## TODO
+
+* update rci.bat to allow feeding ruby.exe multiple options
+* create rci.ps1
+* add .gitignore that tracks just `^core_` files in `input/` and `workloads`
+* gemify
