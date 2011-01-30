@@ -26,6 +26,7 @@ exit /b
 #!ruby
 __DIR__ = File.expand_path(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(__DIR__, 'lib'))
+$LOAD_PATH.unshift(File.join(__DIR__))
 
 require 'inquisitor'
 
