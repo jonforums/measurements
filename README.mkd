@@ -1,5 +1,5 @@
 ## What?
 
-A mini-framework for interrogating your Ruby code.
+A mini-framework for running your own Ruby Inquisition.
 
 ## TODO
