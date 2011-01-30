@@ -6,27 +6,31 @@ module Inquisitor
   def self.usage
 <<-EOT
 
-usage: rci [COMMON_OPTS] COMMAND [SUBCOMMAND] [CMD_OPTS]
+usage: rci [RUBY_OPTS] COMMAND [SUBCOMMAND] [CMD_OPTS]
 
 where COMMAND is one of:
 
   init   initialize RCI environment
-  trace  trace workloads
+  trace  trace a workload
   bench  benchmark workloads
+  exec   execute a workload
 
-where COMMON_OPTS are:
+where RUBY_OPTS are:
 
   --disable-gems  disable RubyGems use
 
 where 'trace' SUBCOMMAND is one of:
 
-  all       trace all workloads
   WORKLOAD  trace given WORKLOAD
 
 where 'bench' SUBCOMMAND is one of:
 
   all       benchmark all workloads
   WORKLOAD  benchmark given WORKLOAD
+
+where 'exec' SUBCOMMAND is one of:
+
+  WORKLOAD  execute given WORKLOAD
 EOT
   end
 
@@ -55,6 +59,11 @@ EOT
   end
   private_class_method :bench
 
+  def self.exec
+    puts 'executing...'
+  end
+  private_class_method :exec
+
   SUBCOMMANDS = %w[
     all
   ]
@@ -66,7 +75,8 @@ EOT
 
   @cmd = ARGV.delete('init')  ||
          ARGV.delete('trace') ||
-         ARGV.delete('bench')
+         ARGV.delete('bench') ||
+         ARGV.delete('exec')
 
   Inquisitor.usage_and_exit unless ARGV.empty?
 
