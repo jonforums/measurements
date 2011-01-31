@@ -60,7 +60,7 @@ EOT
     #      encapsulate this in a config.yml selectable class
     system("start #{tracer} /quiet /minimized /backingfile #{File.join(RCI_ROOT, RCI::CONFIG[:dirs][:logs], 'api_trace.pml')}")
     system("#{tracer} /waitforidle")
-    system("start ruby.exe \"#{target}\"")
+    system("ruby.exe \"#{target}\"")
     system("#{tracer} /terminate")
   end
   private_class_method :trace
