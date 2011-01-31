@@ -1,10 +1,42 @@
 ## What?
 
-A mini-framework for running your own Ruby Inquisition.
+A mini-framework for hosting your own little Ruby Code Inquisition party.
+Currently benchmarking, API tracing, and controlled execution for use with
+code profiling is envisioned.
+
+## Usage
+
+The project's goal is to keep as much of the boilerplate setup and driver code
+needed to automate benchmarking, API tracing, and profiling out of the actual
+code you want to test. Ideally, you write a `.rb` containing the code you want
+to test, drop the `.rb` file into the `workloads` subdirectory, and use the
+`rci` runner to help benchmark, API trace, or execute the code.
+
+<pre>
+C:\projects\measurements-git>rci
+
+usage: rci [RUBY_OPTS] COMMAND
+
+where COMMAND is one of:
+
+  bench <W|all>   benchmark workload W or all workloads
+  exec W          execute workload W
+  init            initialize environment
+  ls              list all workloads
+  trace W         trace workload W
+
+where RUBY_OPTS are:
+
+  --disable-gems  disable RubyGems use
+</pre>
 
 ## TODO
 
 * update rci.bat to allow feeding ruby.exe multiple options
 * create rci.ps1
 * implement regex workload matching for benchmarking
+* encapsulate tracing to allow multiple trace providers
+* cleanup current hard-coded tracing using Process Monitor
+* make all execution code non-Windows specific
 * gemify
+* implement basic benchmarking statistics
