@@ -1,3 +1,6 @@
+# Copyright (c) 2011, Jon Maken
+# License: 3-clause BSD (see project LICENSE file)
+
 module RCI
   module Tracers
     class ProcessMonitor
