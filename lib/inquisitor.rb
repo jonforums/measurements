@@ -51,25 +51,17 @@ EOT
     target = File.join(RCI_ROOT, 'workloads', workload)
     abort '[ERROR] unknown trace workload \'%s\'' % workload[/\w*/] unless File.exists?(target)
 
-    require 'yaml'
-    YAML::ENGINE.yamler = 'psych' if defined?(YAML::ENGINE)
+    tracer = RCI::CONFIG[:tracer][:exe]
+    #puts '[INFO] tracing with %s...' % File.basename(tracer)
 
-    begin
-      cfg = YAML.load_file(File.join(RCI_ROOT, RCI_CONFIG))
-      tracer = cfg[:tracer][:exe]
-      #puts '[INFO] tracing with %s...' % File.basename(cfg[:tracer][:exe])
-
-      # TODO handle the UAC prompt by punting and requiring use of an elevated shell?
-      #      implement UAC check and bail out with a message to use elevated shell
-      #      generate timestamped log output files from the tracer
-      #      encapsulate this in a config.yml selectable class
-      system("start #{tracer} /quiet /minimized")
-      system("#{tracer} /waitforidle")
-      system("start ruby.exe \"#{target}\"")
-      system("#{tracer} /terminate")
-    rescue
-      abort '[ERROR] problem with \'%s\' configuration file' % RCI_CONFIG
-    end
+    # TODO handle the UAC prompt by punting and requiring use of an elevated shell?
+    #      implement UAC check and bail out with a message to use elevated shell
+    #      generate timestamped log output files from the tracer
+    #      encapsulate this in a config.yml selectable class
+    system("start #{tracer} /quiet /minimized /backingfile #{File.join(RCI_ROOT, 'api_trace.pml')}")
+    system("#{tracer} /waitforidle")
+    system("start ruby.exe \"#{target}\"")
+    system("#{tracer} /terminate")
   end
   private_class_method :trace
 
