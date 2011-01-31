@@ -51,17 +51,13 @@ EOT
     target = File.join(RCI_ROOT, RCI::CONFIG[:dirs][:workloads], workload)
     abort '[ERROR] unknown trace workload \'%s\'' % workload[/\w*/] unless File.exists?(target)
 
-    tracer = RCI::CONFIG[:tracer][:exe]
-    #puts '[INFO] tracing with %s...' % File.basename(tracer)
+    # FIXME walk the listed tracers and pick the one that's :active
+    active_tracer = RCI::CONFIG[:tracer][:name]
+    puts '[INFO] tracing with \'%s\' API trace provider' % active_tracer
 
-    # TODO handle the UAC prompt by punting and requiring use of an elevated shell?
-    #      implement UAC check and bail out with a message to use elevated shell
-    #      generate timestamped log output files from the tracer
-    #      encapsulate this in a config.yml selectable class
-    system("start #{tracer} /quiet /minimized /backingfile #{File.join(RCI_ROOT, RCI::CONFIG[:dirs][:logs], 'api_trace.pml')}")
-    system("#{tracer} /waitforidle")
-    system("ruby.exe \"#{target}\"")
-    system("#{tracer} /terminate")
+    require "tracers/#{active_tracer.downcase}"
+    tracer = eval("RCI::Tracers::#{active_tracer}.new")
+    tracer.call :target => target
   end
   private_class_method :trace
 

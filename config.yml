@@ -5,7 +5,8 @@
 
 # API tracer configuration
 :tracer:
-  :name: procmon
+  :name: ProcessMonitor
+  :active: true
   :exe: C:/winsystools/ProcessMonitor/procmon.exe
 
 # Benchmarking configuration
