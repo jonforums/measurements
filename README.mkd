@@ -12,7 +12,7 @@ code you want to test. Ideally, you write a `.rb` containing the code you want
 to test, drop the `.rb` file into the `workloads` subdirectory, and use the
 `rci` runner to help benchmark, API trace, or execute the code.
 
-<pre>
+<pre><code>
 C:\projects\measurements-git>rci
 
 usage: rci [RUBY_OPTS] COMMAND
@@ -28,7 +28,7 @@ where COMMAND is one of:
 where RUBY_OPTS are:
 
   --disable-gems  disable RubyGems use
-</pre>
+</code></pre>
 
 ## TODO
 
