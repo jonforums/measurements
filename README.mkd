@@ -30,6 +30,10 @@ where RUBY_OPTS are:
   --disable-gems  disable RubyGems use
 </code></pre>
 
+## License
+
+3-clause BSD. See project LICENSE file.
+
 ## TODO
 
 * implement `init` command
