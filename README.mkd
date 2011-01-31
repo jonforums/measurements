@@ -32,14 +32,14 @@ where RUBY_OPTS are:
 
 ## TODO
 
-* cleanup current hard-coded tracing using Process Monitor
+* fix Process Monitor `.pml` backing file corruption issue
 * implement `init` command
 * implement `exec` command
-* update rci.bat to allow feeding ruby.exe multiple options
-* create rci.ps1
+* update `rci.bat` to allow feeding `ruby.exe` multiple options
+* create `rci.ps1`
 * implement cmd line regex workload matching for benchmarking
 * encapsulate tracing to allow multiple trace providers
 * make all execution code non-Windows specific
 * make `workloads` and `input` dirs `config.yml` selectable
-* gemify
+* gemify?
 * implement basic benchmarking statistics
