@@ -6,31 +6,19 @@ module Inquisitor
   def self.usage
 <<-EOT
 
-usage: rci [RUBY_OPTS] COMMAND [SUBCOMMAND] [CMD_OPTS]
+usage: rci [RUBY_OPTS] COMMAND
 
 where COMMAND is one of:
 
-  init   initialize RCI environment
-  trace  trace a workload
-  bench  benchmark workloads
-  exec   execute a workload
+  bench <W|all>   benchmark workload W or all workloads
+  exec W          execute workload W
+  init            initialize environment
+  ls              list all workloads
+  trace W         trace workload W
 
 where RUBY_OPTS are:
 
   --disable-gems  disable RubyGems use
-
-where 'trace' SUBCOMMAND is one of:
-
-  WORKLOAD  trace given WORKLOAD
-
-where 'bench' SUBCOMMAND is one of:
-
-  all       benchmark all workloads
-  WORKLOAD  benchmark given WORKLOAD
-
-where 'exec' SUBCOMMAND is one of:
-
-  WORKLOAD  execute given WORKLOAD
 EOT
   end
 
@@ -39,44 +27,111 @@ EOT
     exit(-1)
   end
 
-  def self.run(*args)
-    #send(args.first)
-    send(@cmd)
+  def self.run
+    send(@cmd.to_sym, @tgt)
   end
 
-  def self.init
-    puts 'init-ing...'
+  # TODO implement
+  def self.init(*args)
+    puts '[TODO] implement user hookable environment initialization'
   end
   private_class_method :init
 
-  def self.trace
-    puts 'tracing...'
+  def self.ls(*args)
+    puts "\n=== Known Workloads ==="
+    Dir.glob(File.join(RCI_ROOT, 'workloads', '*.rb')) do |f|
+      puts ' * %s' % File.basename(f)[/(\w*)/]
+    end
+  end
+  private_class_method :ls
+
+  def self.trace(*args)
+    abort '[ERROR] must provide an API tracing workload' if args.first.nil?
+    workload = '%s.rb' % args.first
+    target = File.join(RCI_ROOT, 'workloads', workload)
+    abort '[ERROR] unknown trace workload \'%s\'' % workload[/\w*/] unless File.exists?(target)
+
+    require 'yaml'
+    YAML::ENGINE.yamler = 'psych' if defined?(YAML::ENGINE)
+
+    begin
+      cfg = YAML.load_file(File.join(RCI_ROOT, RCI_CONFIG))
+      tracer = cfg[:tracer][:exe]
+      #puts '[INFO] tracing with %s...' % File.basename(cfg[:tracer][:exe])
+
+      # TODO handle the UAC prompt by punting and requiring use of an elevated shell?
+      #      implement UAC check and bail out with a message to use elevated shell
+      #      generate timestamped log output files from the tracer
+      #      encapsulate this in a config.yml selectable class
+      system("start #{tracer} /quiet /minimized")
+      system("#{tracer} /waitforidle")
+      system("start ruby.exe \"#{target}\"")
+      system("#{tracer} /terminate")
+    rescue
+      abort '[ERROR] problem with \'%s\' configuration file' % RCI_CONFIG
+    end
   end
   private_class_method :trace
 
-  def self.bench
-    puts 'benchmarking...'
+  def self.bench(*args)
+    abort '[ERROR] must provide a benchmarking workload' if args.first.nil?
+    workload = case args.first
+               when /\Aall\z/
+                 'all'
+               else
+                 "#{args.first}.rb"
+               end
+
+    # TODO implement benchmarking all workloads
+    #      implement benchmarking regex selectable workloads
+    abort '[TODO] implement benchmarking all workloads...' if workload =~ /\Aall\z/i
+
+    targets = [ File.join(RCI_ROOT, 'workloads', workload) ]
+    unless targets.all? { |t| File.exists?(t) }
+      abort '[ERROR] unknown benchmark workload(s)'
+    end
+    require 'benchmark'
+
+    # TODO move n to config.yml
+    n = 3
+    Benchmark.bmbm do |bm|
+      targets.each do |target|
+        bm.report "#{File.basename(target)[/\w*/]}" do
+          n.times do
+            load target
+          end
+        end
+      end
+    end
+
   end
   private_class_method :bench
 
-  def self.exec
-    puts 'executing...'
+  # TODO implement
+  def self.exec(*args)
+    puts '[TODO] implement workload execution functionality'
   end
   private_class_method :exec
 
-  SUBCOMMANDS = %w[
-    all
-  ]
+  def self.method_missing(method, *args)
+    puts '[ERROR] I don\'t understand the \'%s\' command :(' % method
+    Inquisitor.usage_and_exit
+  end
 
   # parse args
   if ARGV.empty? || ARGV.delete('--help') || ARGV.delete('-h')
     Inquisitor.usage_and_exit
   end
 
-  @cmd = ARGV.delete('init')  ||
-         ARGV.delete('trace') ||
-         ARGV.delete('bench') ||
-         ARGV.delete('exec')
+  @cmd = ARGV.delete('bench') ||
+         ARGV.delete('exec')  ||
+         ARGV.delete('init')  ||
+         ARGV.delete('ls')    ||
+         ARGV.delete('trace')
+  @cmd = ARGV[0] if @cmd.nil?
+
+  # TODO review this way of sending in a subcommand or a workload
+  @tgt = ARGV.shift unless ARGV.empty?
 
   Inquisitor.usage_and_exit unless ARGV.empty?
 
