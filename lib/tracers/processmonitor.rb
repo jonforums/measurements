@@ -1,0 +1,21 @@
+module RCI
+  module Tracers
+    class ProcessMonitor
+
+      def initialize
+        # FIXME ensure :name matches and is :active
+        @tracer = RCI::CONFIG[:tracer][:exe]
+      end
+
+      def call(env)
+        # TODO implement UAC check and bail out with a message to use elevated shell
+        #      generate timestamped log output files from the tracer
+        system("start #{@tracer} /quiet /minimized /backingfile #{File.join(RCI_ROOT, RCI::CONFIG[:dirs][:logs], 'api_trace.pml')}")
+        system("#{@tracer} /waitforidle")
+        system("ruby.exe \"#{env[:target]}\"")
+        system("#{@tracer} /terminate")
+      end
+
+    end
+  end
+end
