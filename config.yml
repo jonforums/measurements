@@ -1,0 +1,3 @@
+:tracer:
+  :name: procmon
+  :exe: C:/winsystools/ProcessMonitor/procmon.exe
