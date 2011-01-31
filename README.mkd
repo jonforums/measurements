@@ -19,7 +19,7 @@ usage: rci [RUBY_OPTS] COMMAND
 
 where COMMAND is one of:
 
-  bench <W|all>   benchmark workload W or all workloads
+  bench &lt;W|all&gt;   benchmark workload W or all workloads
   exec W          execute workload W
   init            initialize environment
   ls              list all workloads
