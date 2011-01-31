@@ -58,7 +58,7 @@ EOT
     #      implement UAC check and bail out with a message to use elevated shell
     #      generate timestamped log output files from the tracer
     #      encapsulate this in a config.yml selectable class
-    system("start #{tracer} /quiet /minimized /backingfile #{File.join(RCI_ROOT, 'api_trace.pml')}")
+    system("start #{tracer} /quiet /minimized /backingfile #{File.join(RCI_ROOT, 'logs', 'api_trace.pml')}")
     system("#{tracer} /waitforidle")
     system("start ruby.exe \"#{target}\"")
     system("#{tracer} /terminate")
