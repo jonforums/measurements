@@ -1,3 +1,9 @@
+:dirs:
+  :workloads: workloads
+  :input: input
+  :logs: logs
+
+# API tracer configuration
 :tracer:
   :name: procmon
   :exe: C:/winsystools/ProcessMonitor/procmon.exe

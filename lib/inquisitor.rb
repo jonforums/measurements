@@ -39,7 +39,7 @@ EOT
 
   def self.ls(*args)
     puts "\n=== Known Workloads ==="
-    Dir.glob(File.join(RCI_ROOT, 'workloads', '*.rb')) do |f|
+    Dir.glob(File.join(RCI_ROOT, RCI::CONFIG[:dirs][:workloads], '*.rb')) do |f|
       puts ' * %s' % File.basename(f)[/(\w*)/]
     end
   end
@@ -48,7 +48,7 @@ EOT
   def self.trace(*args)
     abort '[ERROR] must provide an API tracing workload' if args.first.nil?
     workload = '%s.rb' % args.first
-    target = File.join(RCI_ROOT, 'workloads', workload)
+    target = File.join(RCI_ROOT, RCI::CONFIG[:dirs][:workloads], workload)
     abort '[ERROR] unknown trace workload \'%s\'' % workload[/\w*/] unless File.exists?(target)
 
     tracer = RCI::CONFIG[:tracer][:exe]
@@ -58,7 +58,7 @@ EOT
     #      implement UAC check and bail out with a message to use elevated shell
     #      generate timestamped log output files from the tracer
     #      encapsulate this in a config.yml selectable class
-    system("start #{tracer} /quiet /minimized /backingfile #{File.join(RCI_ROOT, 'logs', 'api_trace.pml')}")
+    system("start #{tracer} /quiet /minimized /backingfile #{File.join(RCI_ROOT, RCI::CONFIG[:dirs][:logs], 'api_trace.pml')}")
     system("#{tracer} /waitforidle")
     system("start ruby.exe \"#{target}\"")
     system("#{tracer} /terminate")
@@ -78,7 +78,7 @@ EOT
     #      implement benchmarking regex selectable workloads
     abort '[TODO] implement benchmarking all workloads...' if workload =~ /\Aall\z/i
 
-    targets = [ File.join(RCI_ROOT, 'workloads', workload) ]
+    targets = [ File.join(RCI_ROOT, RCI::CONFIG[:dirs][:workloads], workload) ]
     unless targets.all? { |t| File.exists?(t) }
       abort '[ERROR] unknown benchmark workload(s)'
     end
