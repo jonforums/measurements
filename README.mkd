@@ -40,6 +40,7 @@ where RUBY_OPTS are:
 * implement `exec` command
 * update `rci.bat` to allow feeding `ruby.exe` multiple options
 * create `rci.ps1`
+* create `rci.sh` and figure out how to implement `trace` on Linux
 * implement cmd line regex workload matching for benchmarking
 * enable multiple tracers to be defined in `config.yml` but only 1 active
 * make all execution code non-Windows specific
