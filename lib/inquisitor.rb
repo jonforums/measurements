@@ -84,12 +84,10 @@ EOT
     end
     require 'benchmark'
 
-    # TODO move n to config.yml
-    n = 3
     Benchmark.bmbm do |bm|
       targets.each do |target|
         bm.report "#{File.basename(target)[/\w*/]}" do
-          n.times do
+          RCI::CONFIG[:bench][:iterations].times do
             load target
           end
         end
