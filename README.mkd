@@ -32,7 +32,6 @@ where RUBY_OPTS are:
 
 ## TODO
 
-* WTF: fix Process Monitor `.pml` backing file corruption issue
 * implement `init` command
 * implement `exec` command
 * update `rci.bat` to allow feeding `ruby.exe` multiple options
@@ -40,6 +39,6 @@ where RUBY_OPTS are:
 * implement cmd line regex workload matching for benchmarking
 * encapsulate tracing to allow multiple trace providers
 * make all execution code non-Windows specific
-* make `workloads`,`input`, and `logs` dirs `config.yml` selectable
+* support both system and user `workloads` and `input` working dirs
 * gemify?
 * implement basic benchmarking statistics
