@@ -24,9 +24,10 @@ ruby.exe %NOGEM% -x %~f0 %RB_ARGS%
 endlocal
 exit /b
 #!ruby
-__DIR__ = File.expand_path(File.dirname(__FILE__))
-$LOAD_PATH.unshift(File.join(__DIR__, 'lib'))
-$LOAD_PATH.unshift(File.join(__DIR__))
+RCI_CONFIG = 'config.yml'
+RCI_ROOT = File.expand_path(File.dirname(__FILE__))
+$LOAD_PATH.unshift(File.join(RCI_ROOT, 'lib'))
+$LOAD_PATH.unshift(File.join(RCI_ROOT))
 
 require 'inquisitor'
 
