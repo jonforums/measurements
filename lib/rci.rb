@@ -5,8 +5,10 @@
 require 'rbconfig'
 
 module RCI
-  RUBY_CONFIG = RbConfig::CONFIG
   CONFIG_FILE = 'config.yml'
+  WORLD_CONFIG = Hash.new do |cfg,k|
+    cfg[k] = RbConfig::CONFIG[k.to_s]
+  end
 
   require 'yaml'
   YAML::ENGINE.yamler = 'psych' if defined?(YAML::ENGINE)
@@ -17,11 +19,13 @@ module RCI
     abort '[ERROR] problem with \'%s\' configuration file' % CONFIG_FILE
   end
 
+  WORLD_CONFIG[:workloads_dir] = File.join(RCI_ROOT, RCI::CONFIG[:dirs][:workloads])
+
   def self.ruby
     if @ruby.nil? then
-      @ruby = File.join(RUBY_CONFIG['bindir'],
-                        RUBY_CONFIG['ruby_install_name'])
-      @ruby << RUBY_CONFIG['EXEEXT']
+      @ruby = File.join(WORLD_CONFIG[:bindir],
+                        WORLD_CONFIG[:ruby_install_name])
+      @ruby << WORLD_CONFIG[:EXEEXT]
 
       # escape string in case path to ruby executable contain spaces.
       @ruby.sub!(/.*\s.*/m, '"\&"')

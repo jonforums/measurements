@@ -39,7 +39,7 @@ EOT
 
   def self.ls(*args)
     puts "\n=== Known Workloads ==="
-    Dir.glob(File.join(RCI_ROOT, RCI::CONFIG[:dirs][:workloads], '*.rb')) do |f|
+    Dir.glob(File.join(RCI::WORLD_CONFIG[:workloads_dir], '*.rb')) do |f|
       puts ' * %s' % File.basename(f)[/(\w*)/]
     end
   end
@@ -48,7 +48,7 @@ EOT
   def self.trace(*args)
     abort '[ERROR] must provide an API tracing workload' if args.first.nil?
     workload = '%s.rb' % args.first
-    target = File.join(RCI_ROOT, RCI::CONFIG[:dirs][:workloads], workload)
+    target = File.join(RCI::WORLD_CONFIG[:workloads_dir], workload)
     abort '[ERROR] unknown trace workload \'%s\'' % workload[/\w*/] unless File.exists?(target)
 
     # FIXME walk the listed tracers and pick the one that's :active
@@ -71,12 +71,11 @@ EOT
                end
 
     # TODO implement benchmarking regex selectable workloads
-    workload_dir = File.join(RCI_ROOT, RCI::CONFIG[:dirs][:workloads])
     targets = case workload
               when /\Aall\z/
-                Dir.glob("#{File.join(workload_dir, '*.rb')}")
+                Dir.glob("#{File.join(RCI::WORLD_CONFIG[:workloads_dir], '*.rb')}")
               else
-                f = File.join(workload_dir, workload)
+                f = File.join(RCI::WORLD_CONFIG[:workloads_dir], workload)
                 unless File.exists?(f)
                   abort '[ERROR] unknown \'%s\' benchmark workload' % workload[/\w*/]
                 end
