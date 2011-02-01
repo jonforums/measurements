@@ -1,13 +1,22 @@
 :: Copyright (c) 2011, Jon Maken
 :: License: 3-clause BSD (see project LICENSE file)
-:: Revision: 01/29/2011 10:20:16 AM
+:: Revision: 02/01/2011 9:52:50 AM
 
 @echo off
 setlocal
 :: echo initial:
 :: echo   %%0 = %0
 :: echo   %%* = %*
-:: fix ruby.exe invocation when explicitly disabling RubyGems
+
+:: FIXME - broken if both flavors on PATH; n.p with Pik :)
+jruby.exe --version > NUL 2>&1
+if ERRORLEVEL 1 (
+  set RUBY=ruby.exe
+) else (
+  set RUBY=jruby.exe
+)
+
+:: FIXME - fragile (positional) way to send an option to ruby
 if "x%1" == "x--disable-gems" (
   set NOGEM=%1
   for /F "tokens=1*" %%i in ("%*") do (
@@ -19,9 +28,10 @@ if "x%1" == "x--disable-gems" (
 )
 
 :: echo pre call ruby:
+:: echo   RUBY = %RUBY%
 :: echo   NOGEM = %NOGEM%
 :: echo   RB_ARGS = %RB_ARGS%
-ruby.exe %NOGEM% -x %~f0 %RB_ARGS%
+%RUBY% %NOGEM% -x %~f0 %RB_ARGS%
 
 endlocal
 exit /b
