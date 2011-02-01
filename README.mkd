@@ -36,8 +36,10 @@ where RUBY_OPTS are:
 
 ## TODO
 
+* genericize hardcoded `ruby.exe` in `rci.bat`
 * implement `init` command
 * implement `exec` command
+* fix JRuby problem in `processmonitor.rb` when running `trace`
 * update `rci.bat` to allow feeding `ruby.exe` multiple options
 * create `rci.ps1`
 * create `rci.sh` and figure out how to implement `trace` on Linux
