@@ -36,14 +36,14 @@ where RUBY_OPTS are:
 
 ## TODO
 
-* genericize hardcoded `ruby.exe` in `rci.bat`
-* implement `init` command
+* implement `bench all`
+* implement cmd line regex workload matching for benchmarking
 * implement `exec` command
 * fix JRuby problem in `processmonitor.rb` when running `trace`
+* implement `init` command
 * update `rci.bat` to allow feeding `ruby.exe` multiple options
 * create `rci.ps1`
 * create `rci.sh` and figure out how to implement `trace` on Linux
-* implement cmd line regex workload matching for benchmarking
 * enable multiple tracers to be defined in `config.yml` but only 1 active
 * make all execution code non-Windows specific
 * support both system and user `workloads` and `input` working dirs
