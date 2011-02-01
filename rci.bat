@@ -10,7 +10,9 @@ setlocal
 :: fix ruby.exe invocation when explicitly disabling RubyGems
 if "x%1" == "x--disable-gems" (
   set NOGEM=%1
-  for /F "tokens=1*" %%i in ("%*") do set RB_ARGS=%%j
+  for /F "tokens=1*" %%i in ("%*") do (
+    set RB_ARGS=%%j
+  )
 ) else (
   set NOGEM=
   set RB_ARGS=%*
