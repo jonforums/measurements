@@ -1,6 +1,6 @@
 ## What?
 
-A mini-framework for hosting your own little Ruby Code Inquisition party.
+A mini-framework for hosting your own little Ruby Code Interrogation party.
 Currently benchmarking, API tracing, and controlled execution for use with
 code profiling is envisioned.
 
