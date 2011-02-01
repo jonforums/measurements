@@ -57,7 +57,7 @@ EOT
 
     require "tracers/#{active_tracer.downcase}"
     tracer = eval("RCI::Tracers::#{active_tracer}.new")
-    tracer.call :target => target
+    tracer.call :target => target, :disable_gems => @options[:disable_gems]
   end
   private_class_method :trace
 
@@ -113,6 +113,9 @@ EOT
   if ARGV.empty? || ARGV.delete('--help') || ARGV.delete('-h')
     Inquisitor.usage_and_exit
   end
+
+  @options = {}
+  @options[:disable_gems] = ARGV.delete('--disable-gems')
 
   @cmd = ARGV.delete('bench') ||
          ARGV.delete('exec')  ||

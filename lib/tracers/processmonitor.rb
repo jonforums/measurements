@@ -16,11 +16,12 @@ module RCI
 
         # FIXME figure out why JRuby doesn't like this
 
-        #puts 'Ruby: %s, tracer: %s' % [ RCI.ruby, @tracer ]
+        #puts "Ruby: %s\ndisable_gems: %s\ntracer: %s\ntarget:%s" %
+        #      [ RCI.ruby, @tracer, env[:disable_gems], env[:target] ]
 
         system("start #{@tracer} /quiet /minimized /backingfile #{File.join(RCI_ROOT, RCI::CONFIG[:dirs][:logs], 'api_trace.pml')}")
         system("#{@tracer} /waitforidle")
-        system("#{RCI.ruby} \"#{env[:target]}\"")
+        system("#{RCI.ruby} #{env[:disable_gems]} \"#{env[:target]}\"")
         system("#{@tracer} /terminate")
       end
 

@@ -20,7 +20,7 @@ if ERRORLEVEL 1 (
 if "x%1" == "x--disable-gems" (
   set NOGEM=%1
   for /F "tokens=1*" %%i in ("%*") do (
-    set RB_ARGS=%%j
+    set RB_ARGS=%%j --disable-gems
   )
 ) else (
   set NOGEM=
