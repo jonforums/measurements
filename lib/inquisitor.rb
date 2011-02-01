@@ -64,23 +64,29 @@ EOT
   def self.bench(*args)
     abort '[ERROR] must provide a benchmarking workload' if args.first.nil?
     workload = case args.first
-               when /\Aall\z/
+               when /\Aall\z/i
                  'all'
                else
                  "#{args.first}.rb"
                end
 
-    # TODO implement benchmarking all workloads
-    #      implement benchmarking regex selectable workloads
-    abort '[TODO] implement benchmarking all workloads...' if workload =~ /\Aall\z/i
+    # TODO implement benchmarking regex selectable workloads
+    workload_dir = File.join(RCI_ROOT, RCI::CONFIG[:dirs][:workloads])
+    targets = case workload
+              when /\Aall\z/
+                Dir.glob("#{File.join(workload_dir, '*.rb')}")
+              else
+                f = File.join(workload_dir, workload)
+                unless File.exists?(f)
+                  abort '[ERROR] unknown \'%s\' benchmark workload' % workload[/\w*/]
+                end
+                [ f ]
+              end
 
-    targets = [ File.join(RCI_ROOT, RCI::CONFIG[:dirs][:workloads], workload) ]
-    unless targets.all? { |t| File.exists?(t) }
-      abort '[ERROR] unknown benchmark workload(s)'
-    end
     require 'benchmark'
 
     Benchmark.bmbm do |bm|
+      puts '%s' % RUBY_DESCRIPTION
       targets.each do |target|
         bm.report "#{File.basename(target)[/\w*/]}" do
           RCI::CONFIG[:bench][:iterations].times do

@@ -36,7 +36,6 @@ where RUBY_OPTS are:
 
 ## TODO
 
-* implement `bench all`
 * implement cmd line regex workload matching for benchmarking
 * implement `exec` command
 * fix JRuby problem in `processmonitor.rb` when running `trace`
