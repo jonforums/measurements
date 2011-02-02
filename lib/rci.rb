@@ -14,12 +14,19 @@ module RCI
   YAML::ENGINE.yamler = 'psych' if defined?(YAML::ENGINE)
 
   begin
-    CONFIG = YAML.load_file(File.join(RCI_ROOT, CONFIG_FILE))
+    USER_CONFIG = YAML.load_file(File.join(RCI_ROOT, CONFIG_FILE))
   rescue
-    abort '[ERROR] problem with \'%s\' configuration file' % CONFIG_FILE
+    abort '[ERROR] problem loading \'%s\' configuration file' % CONFIG_FILE
   end
 
-  WORLD_CONFIG[:workloads_dir] = File.join(RCI_ROOT, RCI::CONFIG[:dirs][:workloads])
+  # basic config.yml checks
+  if USER_CONFIG[:tracer].select {|t| t[:active] }.length != 1
+    abort '[ERROR] \'%s\' must configure only one active tracer' % CONFIG_FILE
+  end
+
+  # convenience merge of select user config into world config
+  WORLD_CONFIG[:workloads_dir] = File.join(RCI_ROOT, RCI::USER_CONFIG[:dirs][:workloads])
+  WORLD_CONFIG[:logs_dir] = File.join(RCI_ROOT, RCI::USER_CONFIG[:dirs][:logs])
 
   def self.ruby
     if @ruby.nil? then
