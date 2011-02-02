@@ -41,4 +41,8 @@ module RCI
     @ruby
   end
 
+  def self.windows?
+    WORLD_CONFIG[:host_os] =~ /mswin|mingw/
+  end
+
 end
