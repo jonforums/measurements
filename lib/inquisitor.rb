@@ -84,11 +84,13 @@ EOT
 
     require 'benchmark'
 
+    n = RCI::USER_CONFIG[:bench][:iterations]
+    puts '%s' % RUBY_DESCRIPTION
+    puts 'RubyGems disabled' if @options[:disable_gems]
     Benchmark.bmbm do |bm|
-      puts '%s' % RUBY_DESCRIPTION
       targets.each do |target|
         bm.report "#{File.basename(target)[/\w*/]}" do
-          RCI::CONFIG[:bench][:iterations].times do
+          n.times do
             load target
           end
         end
