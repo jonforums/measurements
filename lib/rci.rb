@@ -1,6 +1,6 @@
 # Copyright (c) 2011, Jon Maken
 # License: 3-clause BSD (see project LICENSE file)
-# self.ruby implementation sourced from RubyGems
+#   - self.ruby impl from RubyGems
 
 require 'rbconfig'
 

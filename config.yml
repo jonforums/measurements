@@ -7,9 +7,14 @@
 
 # API tracer configuration
 :tracer:
-  :name: ProcessMonitor
-  :active: true
-  :exe: C:/winsystools/ProcessMonitor/procmon.exe
+  -
+    :name: ProcessMonitor
+    :active: true
+    :exe: C:/winsystools/ProcessMonitor/procmon.exe
+  -
+    :name: APIMonitor
+    :active: false
+    :exe: c:/winsystools/APIMonitor/apimonitor-x86.exe
 
 # Benchmarking configuration
 :bench:

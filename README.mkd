@@ -43,7 +43,6 @@ where RUBY_OPTS are:
 * update `rci.bat` to allow feeding `ruby.exe` multiple options
 * create `rci.ps1`
 * create `rci.sh` and figure out how to implement `trace` on Linux
-* enable multiple tracers to be defined in `config.yml` but only 1 active
 * make all execution code non-Windows specific
 * support both system and user `workloads` and `input` working dirs
 * gemify?

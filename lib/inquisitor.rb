@@ -51,13 +51,19 @@ EOT
     target = File.join(RCI::WORLD_CONFIG[:workloads_dir], workload)
     abort '[ERROR] unknown trace workload \'%s\'' % workload[/\w*/] unless File.exists?(target)
 
-    # FIXME walk the listed tracers and pick the one that's :active
-    active_tracer = RCI::CONFIG[:tracer][:name]
-    puts '[INFO] tracing with \'%s\' API trace provider' % active_tracer
+    active_tracer = RCI::USER_CONFIG[:tracer].select {|t| t[:active] }.first
 
-    require "tracers/#{active_tracer.downcase}"
-    tracer = eval("RCI::Tracers::#{active_tracer}.new")
-    tracer.call :target => target, :disable_gems => @options[:disable_gems]
+    begin
+      tracer_name = active_tracer[:name]
+      require "tracers/#{tracer_name.downcase}"
+      tracer = eval("RCI::Tracers::#{tracer_name}.new('#{active_tracer[:exe]}')")
+
+      puts '[INFO] tracing with \'%s\' API trace provider' % tracer_name
+      tracer.call :target => target, :disable_gems => @options[:disable_gems]
+    rescue
+      abort '[ERROR] problems loading or running \'%s\' API tracer' % active_tracer[:name]
+    end
+
   end
   private_class_method :trace
 
