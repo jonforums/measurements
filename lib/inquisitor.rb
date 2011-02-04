@@ -123,7 +123,11 @@ EOT
   end
 
   @options = {}
-  @options[:disable_gems] = ARGV.delete('--disable-gems')
+  if RUBY_VERSION < '1.9'
+    ARGV.delete('--disable-gems')
+  else
+    @options[:disable_gems] = ARGV.delete('--disable-gems')
+  end
 
   @cmd = ARGV.delete('bench') ||
          ARGV.delete('exec')  ||

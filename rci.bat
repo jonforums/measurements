@@ -31,6 +31,7 @@ if "x%1" == "x--disable-gems" (
 :: echo   RUBY = %RUBY%
 :: echo   NOGEM = %NOGEM%
 :: echo   RB_ARGS = %RB_ARGS%
+:: FIXME clear NOGEM for ruby.exe < 1.9
 %RUBY% %NOGEM% -x %~f0 %RB_ARGS%
 
 endlocal
