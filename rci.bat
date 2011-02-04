@@ -16,7 +16,7 @@ if ERRORLEVEL 1 (
   set RUBY=jruby.exe
 )
 
-:: FIXME - fragile (positional) way to send an option to ruby
+:: FIXME - fragile, extract to C .exe returning a canonical string
 if "x%1" == "x--disable-gems" (
   set NOGEM=%1
   for /F "tokens=1*" %%i in ("%*") do (
