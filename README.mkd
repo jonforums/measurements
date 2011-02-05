@@ -49,6 +49,7 @@ where RUBY_OPTS are:
 * implement `exec` command
 * fix JRuby problem in `processmonitor.rb` when running `trace`
 * implement `init` command
+* generate all `input\*` test input files from `init`
 * extract cmd line arg parsing from `rci.bat` to C .exe
 * create `rci.ps1`
 * create `rci.sh` and implement `trace` (strace or ltrace) on Linux
