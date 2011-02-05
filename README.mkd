@@ -30,6 +30,15 @@ where RUBY_OPTS are:
   --disable-gems  disable RubyGems use
 </code></pre>
 
+### Current Usage Warts
+
+* MRI 1.8.7 errors out when given the invalid option `--disable-gems`, making
+  `pik run rci --disable-gems bench all` less graceful.
+* Must manually set the environment variable `JRUBY_OPTS=--1.9` to
+  interrogate JRuby in 1.9 mode.
+* As `init` is missing, must manually download a large text file to
+  `input\lesmiserables.txt` so `rci bench core_read_file_lines` works.
+
 ## License
 
 3-clause BSD. See project LICENSE file.
@@ -42,7 +51,7 @@ where RUBY_OPTS are:
 * implement `init` command
 * extract cmd line arg parsing from `rci.bat` to C .exe
 * create `rci.ps1`
-* create `rci.sh` and figure out how to implement `trace` on Linux
+* create `rci.sh` and implement `trace` (strace or ltrace) on Linux
 * make all execution code non-Windows specific
 * support both system and user `workloads` and `input` working dirs
 * gemify?
