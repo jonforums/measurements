@@ -1,6 +1,8 @@
 # Copyright (c) 2011, Jon Maken
 # License: 3-clause BSD (see project LICENSE file)
 
+require 'rci/initializer'
+
 module Inquisitor
 
   def self.usage
@@ -33,7 +35,8 @@ EOT
 
   # TODO implement
   def self.init(*args)
-    puts '[TODO] implement user hookable environment initialization'
+    puts '[TODO] initializing environment...'
+    RCI::Initializer.init
   end
   private_class_method :init
 
