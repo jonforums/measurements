@@ -8,7 +8,7 @@ module Inquisitor
   def self.usage
 <<-EOT
 
-usage: rci [RUBY_OPTS] COMMAND
+usage: rci [RUBY_OPTS] COMMAND [CMD_OPTS]
 
 where COMMAND is one of:
 
@@ -21,6 +21,10 @@ where COMMAND is one of:
 where RUBY_OPTS are:
 
   --disable-gems  disable RubyGems use
+
+where 'exec' CMD_OPTS are:
+
+  --pause         pause before/after running workload
 EOT
   end
 
@@ -48,6 +52,7 @@ EOT
 
   def self.trace(*args)
     abort '[ERROR] must provide an API tracing workload' if args.first.nil?
+
     workload = '%s.rb' % args.first
     target = File.join(RCI::WORLD_CONFIG[:workloads_dir], workload)
     abort '[ERROR] unknown trace workload \'%s\'' % workload[/\w*/] unless File.exists?(target)
@@ -70,6 +75,7 @@ EOT
 
   def self.bench(*args)
     abort '[ERROR] must provide a benchmarking workload' if args.first.nil?
+
     workload = case args.first
                when /\Aall\z/i
                  'all'
@@ -107,9 +113,29 @@ EOT
   end
   private_class_method :bench
 
-  # TODO implement
   def self.exec(*args)
-    puts '[TODO] implement workload execution functionality'
+    abort '[ERROR] must provide a workload to execute' if args.first.nil?
+
+    workload = '%s.rb' % args.first
+    target = File.join(RCI::WORLD_CONFIG[:workloads_dir], workload)
+    abort '[ERROR] unknown exec workload \'%s\'' % workload[/\w*/] unless File.exists?(target)
+
+    if @options[:pause]
+      print 'Press <ENTER> to continue: '
+      gets
+    end
+
+    print "\n[INFO] executing '#{workload[/\w*/]}' workload\n\n"
+    begin
+      load target
+    rescue => ex
+      abort "[ERROR] problem executing '#{workload[/\w*/]}' workload"
+    end
+
+    if @options[:pause]
+      print 'Press <ENTER> to finish: '
+      gets
+    end
   end
   private_class_method :exec
 
@@ -129,6 +155,7 @@ EOT
   else
     @options[:disable_gems] = ARGV.delete('--disable-gems')
   end
+  @options[:pause] = ARGV.delete('--pause')
 
   @cmd = ARGV.delete('bench') ||
          ARGV.delete('exec')  ||

@@ -52,7 +52,6 @@ where RUBY_OPTS are:
 
 * finish implementing `init` command
 * generate all `input\*` test input files from `init`
-* implement `exec` command with `--pause` option
 * implement cmd line regex workload matching for benchmarking
 * fix JRuby problem in `processmonitor.rb` when running `trace`
 * extract cmd line arg parsing from `rci.bat` to C .exe
