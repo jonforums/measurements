@@ -12,6 +12,11 @@ code you want to test. Ideally, you write a `.rb` containing the code you want
 to test, drop the `.rb` file into the `workloads` subdirectory, and use the
 `rci` runner to help benchmark, API trace, or execute the code.
 
+Custom plugins can be created by dropping an `.rb` file starting with the code
+`require 'rci'` into the `plugins` subdirectory. The plugin can count on all
+framework configuration being complete before the plugin is loaded. The plugin
+is loaded before any COMMAND is executed.
+
 <pre><code>
 C:\projects\measurements-git>rci
 
@@ -36,8 +41,8 @@ where RUBY_OPTS are:
   `pik run rci --disable-gems bench all` less graceful.
 * Must manually set the environment variable `JRUBY_OPTS=--1.9` to
   interrogate JRuby in 1.9 mode.
-* As `init` is missing, must manually download a large text file to
-  `input\lesmiserables.txt` so `rci bench core_read_file_lines` works.
+* As `init` is partially implemented, one must manually create the large text
+  file `input\lesmiserables.txt` so `rci bench core_read_file_lines` works.
 
 ## License
 
@@ -45,15 +50,15 @@ where RUBY_OPTS are:
 
 ## TODO
 
-* implement cmd line regex workload matching for benchmarking
-* implement `exec` command
-* fix JRuby problem in `processmonitor.rb` when running `trace`
-* implement `init` command
+* finish implementing `init` command
 * generate all `input\*` test input files from `init`
+* implement `exec` command with `--pause` option
+* implement cmd line regex workload matching for benchmarking
+* fix JRuby problem in `processmonitor.rb` when running `trace`
 * extract cmd line arg parsing from `rci.bat` to C .exe
 * create `rci.ps1`
 * create `rci.sh` and implement `trace` (strace or ltrace) on Linux
 * make all execution code non-Windows specific
 * support both system and user `workloads` and `input` working dirs
-* gemify?
 * implement basic benchmarking statistics
+* gemify?
