@@ -45,7 +45,7 @@ EOT
   def self.ls(*args)
     puts "\n=== Known Workloads ==="
     Dir.glob(File.join(RCI::WORLD_CONFIG[:workloads_dir], '*.rb')) do |f|
-      puts ' * %s' % File.basename(f)[/(\w*)/]
+      puts " * #{File.basename(f)[/(\w*)/]}"
     end
   end
   private_class_method :ls
@@ -55,7 +55,7 @@ EOT
 
     workload = '%s.rb' % args.first
     target = File.join(RCI::WORLD_CONFIG[:workloads_dir], workload)
-    abort '[ERROR] unknown trace workload \'%s\'' % workload[/\w*/] unless File.exists?(target)
+    abort "[ERROR] unknown trace workload '#{workload[/\w*/]}'" unless File.exists?(target)
 
     active_tracer = RCI::USER_CONFIG[:tracer].select {|t| t[:active] }.first
 
@@ -64,10 +64,10 @@ EOT
       require "tracers/#{tracer_name.downcase}"
       tracer = eval("RCI::Tracers::#{tracer_name}.new('#{active_tracer[:exe]}')")
 
-      puts '[INFO] tracing with \'%s\' API trace provider' % tracer_name
+      puts "[INFO] tracing with '#{tracer_name}' API trace provider"
       tracer.call :target => target, :disable_gems => @options[:disable_gems]
-    rescue
-      abort '[ERROR] problems loading or running \'%s\' API tracer' % active_tracer[:name]
+    rescue => ex
+      abort "[ERROR] problems loading/running '#{active_tracer[:name]}' API tracer"
     end
 
   end
@@ -90,7 +90,7 @@ EOT
               else
                 f = File.join(RCI::WORLD_CONFIG[:workloads_dir], workload)
                 unless File.exists?(f)
-                  abort '[ERROR] unknown \'%s\' benchmark workload' % workload[/\w*/]
+                  abort "[ERROR] unknown '#{workload[/\w*/]}' benchmark workload"
                 end
                 [ f ]
               end
@@ -118,10 +118,10 @@ EOT
 
     workload = '%s.rb' % args.first
     target = File.join(RCI::WORLD_CONFIG[:workloads_dir], workload)
-    abort '[ERROR] unknown exec workload \'%s\'' % workload[/\w*/] unless File.exists?(target)
+    abort "[ERROR] unknown exec workload '#{workload[/\w*/]}'" unless File.exists?(target)
 
     if @options[:pause]
-      print 'Press <ENTER> to continue: '
+      print 'Press <ENTER> to start executing workload: '
       gets
     end
 
@@ -140,7 +140,7 @@ EOT
   private_class_method :exec
 
   def self.method_missing(method, *args)
-    puts '[ERROR] I don\'t understand the \'%s\' command :(' % method
+    puts "[ERROR] I don\'t understand the '#{method}' command :("
     Inquisitor.usage_and_exit
   end
 

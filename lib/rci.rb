@@ -16,12 +16,12 @@ module RCI
   begin
     USER_CONFIG = YAML.load_file(File.join(RCI_ROOT, CONFIG_FILE))
   rescue
-    abort '[ERROR] problem loading \'%s\' configuration file' % CONFIG_FILE
+    abort "[ERROR] problem loading '#{CONFIG_FILE}' configuration file"
   end
 
   # basic config.yml checks
   if USER_CONFIG[:tracer].select {|t| t[:active] }.length != 1
-    abort '[ERROR] \'%s\' must configure only one active tracer' % CONFIG_FILE
+    abort "[ERROR] '#{CONFIG_FILE}' must configure only one active tracer"
   end
 
   # convenience merge of select user config into world config
