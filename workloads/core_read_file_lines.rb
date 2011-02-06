@@ -1,4 +1,3 @@
-# FIXME refactor to something less fragile and intrusive
 fname = File.join(File.expand_path(File.dirname(__FILE__)), '..', 'input', 'lesmiserables.txt')
 
 count = 0
