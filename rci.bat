@@ -44,4 +44,14 @@ $LOAD_PATH.unshift(File.join(RCI_ROOT))
 require 'rci'
 require 'inquisitor'
 
+# load all plugins
+Dir.glob('plugins/*.rb').sort.each do |p|
+  begin
+    require p
+  rescue => ex
+    warn '[WARN] Problem loading \'%s\' plugin: %s' %
+         [ File.basename(p)[/\w*/], ex.message ]
+  end
+end
+
 Inquisitor.run
