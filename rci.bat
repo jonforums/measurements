@@ -18,21 +18,21 @@ if ERRORLEVEL 1 (
 
 :: FIXME - fragile, extract to C .exe returning a canonical string
 if "x%1" == "x--disable-gems" (
-  set NOGEM=%1
+  set RB_OPTS=%1
   for /F "tokens=1*" %%i in ("%*") do (
-    set RB_ARGS=%%j --disable-gems
+    set SCRIPT_ARGS=%%j --disable-gems
   )
 ) else (
-  set NOGEM=
-  set RB_ARGS=%*
+  set RB_OPTS=
+  set SCRIPT_ARGS=%*
 )
 
 :: echo pre call ruby:
 :: echo   RUBY = %RUBY%
-:: echo   NOGEM = %NOGEM%
-:: echo   RB_ARGS = %RB_ARGS%
-:: FIXME clear NOGEM for ruby.exe < 1.9
-%RUBY% %NOGEM% -x %~f0 %RB_ARGS%
+:: echo   RB_OPTS = %RB_OPTS%
+:: echo   SCRIPT_ARGS = %SCRIPT_ARGS%
+:: FIXME clear RB_OPTS for ruby.exe < 1.9
+%RUBY% %RB_OPTS% -x %~f0 %SCRIPT_ARGS%
 
 endlocal
 exit /b
