@@ -33,9 +33,7 @@ EOT
     send(@cmd.to_sym, @tgt)
   end
 
-  # TODO implement
   def self.init(*args)
-    puts '[TODO] initializing environment...'
     RCI::Initializer.init
   end
   private_class_method :init
