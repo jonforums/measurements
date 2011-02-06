@@ -33,6 +33,10 @@ where COMMAND is one of:
 where RUBY_OPTS are:
 
   --disable-gems  disable RubyGems use
+
+where 'exec' CMD_OPTS are:
+
+  --pause         pause before/after running workload
 </code></pre>
 
 ### Current Usage Warts
