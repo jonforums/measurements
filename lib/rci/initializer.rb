@@ -7,9 +7,15 @@ module RCI
   module Initializer
 
     def self.pre_init
+      # do core stuff
+
+      # do all registered pre_init_hooks (TODO order correct?)
     end
 
     def self.post_init
+      # do core stuff
+
+      # do all registered post_init_hooks
     end
 
     def self.init(*args)

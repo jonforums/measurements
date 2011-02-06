@@ -28,6 +28,28 @@ module RCI
   WORLD_CONFIG[:workloads_dir] = File.join(RCI_ROOT, RCI::USER_CONFIG[:dirs][:workloads])
   WORLD_CONFIG[:logs_dir] = File.join(RCI_ROOT, RCI::USER_CONFIG[:dirs][:logs])
 
+  # hook infrastructure
+  @pre_init_hooks  ||= []
+  @post_init_hooks ||= []
+
+  def self.pre_init_hooks
+    @pre_init_hooks
+  end
+
+  def self.post_init_hooks
+    @post_init_hooks
+  end
+
+  # TODO what to pass the hook?
+  def self.pre_init(&hook)
+    @pre_init_hooks << hook
+  end
+
+  # TODO what to pass the hook?
+  def self.post_init(&hook)
+    @post_init_hooks << hook
+  end
+
   def self.ruby
     if @ruby.nil? then
       @ruby = File.join(WORLD_CONFIG[:bindir],
