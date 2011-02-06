@@ -44,12 +44,12 @@ module RCI
     @post_init_hooks
   end
 
-  # TODO what to pass the hook?
+  # TODO document hook Proc args
   def self.pre_init(&hook)
     @pre_init_hooks << hook
   end
 
-  # TODO what to pass the hook?
+  # TODO document hook Proc args
   def self.post_init(&hook)
     @post_init_hooks << hook
   end

@@ -6,12 +6,15 @@ require 'fileutils'
 module RCI
   module Initializer
 
+    # TODO what arg(s) to pass each hook?
+    #      core then pre_init hooks order correct?
     def self.pre_init
       # do core stuff
 
-      # do all registered pre_init_hooks (TODO order correct?)
+      # do all registered pre_init_hooks
     end
 
+    # TODO what arg(s) to pass each hook?
     def self.post_init
       # do core stuff
 
