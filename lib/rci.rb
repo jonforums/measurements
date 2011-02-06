@@ -10,8 +10,12 @@ module RCI
     cfg[k] = RbConfig::CONFIG[k.to_s]
   end
 
+  # prefer Psych YAML engine
+  begin
+    require 'psych'
+  rescue LoadError
+  end
   require 'yaml'
-  YAML::ENGINE.yamler = 'psych' if defined?(YAML::ENGINE)
 
   begin
     USER_CONFIG = YAML.load_file(File.join(RCI_ROOT, CONFIG_FILE))
