@@ -44,7 +44,7 @@ EOT
 
   def self.ls(*args)
     puts "\n=== Known Workloads ==="
-    Dir.glob(File.join(RCI::WORLD_CONFIG[:workloads_dir], '*.rb')) do |f|
+    Dir.glob(File.join(RCI::WORLD_CONFIG[:core_workloads], '*.rb')) do |f|
       puts " * #{File.basename(f)[/(\w*)/]}"
     end
   end
@@ -54,7 +54,7 @@ EOT
     abort '[ERROR] must provide an API tracing workload' if args.first.nil?
 
     workload = '%s.rb' % args.first
-    target = File.join(RCI::WORLD_CONFIG[:workloads_dir], workload)
+    target = File.join(RCI::WORLD_CONFIG[:core_workloads], workload)
     abort "[ERROR] unknown trace workload '#{workload[/\w*/]}'" unless File.exists?(target)
 
     active_tracer = RCI::USER_CONFIG[:tracer].select {|t| t[:active] }.first
@@ -86,9 +86,9 @@ EOT
     # TODO implement benchmarking regex selectable workloads
     targets = case workload
               when /\Aall\z/
-                Dir.glob("#{File.join(RCI::WORLD_CONFIG[:workloads_dir], '*.rb')}")
+                Dir.glob("#{File.join(RCI::WORLD_CONFIG[:core_workloads], '*.rb')}")
               else
-                f = File.join(RCI::WORLD_CONFIG[:workloads_dir], workload)
+                f = File.join(RCI::WORLD_CONFIG[:core_workloads], workload)
                 unless File.exists?(f)
                   abort "[ERROR] unknown '#{workload[/\w*/]}' benchmark workload"
                 end
@@ -117,7 +117,7 @@ EOT
     abort '[ERROR] must provide a workload to execute' if args.first.nil?
 
     workload = '%s.rb' % args.first
-    target = File.join(RCI::WORLD_CONFIG[:workloads_dir], workload)
+    target = File.join(RCI::WORLD_CONFIG[:core_workloads], workload)
     abort "[ERROR] unknown exec workload '#{workload[/\w*/]}'" unless File.exists?(target)
 
     if @options[:pause]
@@ -144,7 +144,7 @@ EOT
     Inquisitor.usage_and_exit
   end
 
-  # parse args
+  # parse args and options
   if ARGV.empty? || ARGV.delete('--help') || ARGV.delete('-h')
     Inquisitor.usage_and_exit
   end

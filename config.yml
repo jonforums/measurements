@@ -1,9 +1,7 @@
-# directory configuration
-# currently, directories must be relative to the root poject dir
+# additional user-defined (fully qualified) directories
 :dirs:
-  :workloads: workloads
-  :input: input
-  :logs: logs
+  :workloads: c:/workloads
+  :logs: c:/logs
 
 # API tracer configuration
 :tracer:

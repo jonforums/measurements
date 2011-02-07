@@ -10,6 +10,9 @@ module RCI
     cfg[k] = RbConfig::CONFIG[k.to_s]
   end
 
+  WORLD_CONFIG[:core_workloads] = File.join(RCI_ROOT, 'workloads')
+  WORLD_CONFIG[:core_input] = File.join(RCI_ROOT, 'input')
+
   # prefer Psych YAML engine
   begin
     require 'psych'
@@ -29,8 +32,11 @@ module RCI
   end
 
   # convenience merge of select user config into world config
-  WORLD_CONFIG[:workloads_dir] = File.join(RCI_ROOT, RCI::USER_CONFIG[:dirs][:workloads])
-  WORLD_CONFIG[:logs_dir] = File.join(RCI_ROOT, RCI::USER_CONFIG[:dirs][:logs])
+  WORLD_CONFIG[:logs_dir] = unless RCI::USER_CONFIG[:dirs][:logs]
+                              File.join(RCI_ROOT, 'logs')
+                            else
+                              File.join(RCI_ROOT, RCI::USER_CONFIG[:dirs][:logs])
+                            end
 
   # hook infrastructure
   @pre_init_hooks  ||= []
