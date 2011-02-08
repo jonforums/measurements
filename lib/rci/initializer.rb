@@ -43,13 +43,18 @@ module RCI
     def self.generate_text_files
       puts '[INFO] generating big text test files...'
       s = [
-        'Ipsum lorem ipsum dipsum dippity do cicero quotes from some lame book that one does',
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+        'Quisque gravida ipsum sit amet purus ultricies eu feugiat risus ullamcorper.',
+        '',
+        'Aliquam arcu turpis, bibendum quis consequat vestibulum, sagittis quis purus.',
+        'Aliquam eget augue purus, et molestie risus. In sollicitudin interdum mattis.',
+        'Vestibulum justo ligula, accumsan ac mattis a, pharetra nec arcu.'
       ]
 
-      { 'core_lf.txt' => '\n', 'core_crlf.txt' => '\r\n' }.each_pair do |k,v|
+      { 'core_lf.txt' => "\n", 'core_crlf.txt' => "\r\n" }.each_pair do |k,v|
         File.open(File.join(RCI::WORLD_CONFIG[:core_input], k), 'wb') do |f|
-          200_000.times do
-            f.write("#{s[0]}#{v}")
+          500_000.times do
+            f.write("#{s[rand(5)]}#{v}")
           end
         end
       end
