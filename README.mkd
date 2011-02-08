@@ -21,12 +21,12 @@ is loaded before any COMMAND is executed.
    (or extract a [zipball](http://github.com/jonforums/measurements/zipball/master))
    via `git clone git://github.com/jonforums/measurements.git`
 2. Change to the directory from step (1) and edit the `config.yml` file to your
-   liking. If you want to perform API Tracing via the `trace` command, download
-   [Process Monitor](http://technet.microsoft.com/en-us/sysinternals/bb896645),
+   liking. If you want to perform API Tracing on Windows via the `trace` command,
+   download [Process Monitor](http://technet.microsoft.com/en-us/sysinternals/bb896645),
    extract it to a directory, and enter that absolute directory path into the
-   `:tracer:` section of `config.yml` similar to the project's default.
+   `:tracer:` section of `config.yml`, similar to the project's default.
 3. Initialize the framework by running `rci init`
-4. That's it. You're reading to start interrogating Ruby with the included core
+4. That's it. You're ready to start interrogating Ruby with the included core
    workloads or custom workloads of your own!
 
 ## Usage
