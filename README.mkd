@@ -85,7 +85,7 @@ where 'exec' CMD_OPTS are:
                                user     system      total        real
     core_require_missing  11.232000  20.187000  31.419000 ( 31.631809)
 
-#### How do I benchmark a workload and and disable RubyGems?
+#### How do I benchmark a workload and disable RubyGems?
 
     C:\measurements>rci --disable-gems bench core_pi
     ruby 1.9.3dev (2011-02-08 trunk 30825) [i386-mingw32]
