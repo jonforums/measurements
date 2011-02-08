@@ -4,8 +4,6 @@ A mini-framework for hosting your own little Ruby Code Interrogation party.
 Currently benchmarking, API tracing, and controlled execution for use with
 code profiling is envisioned.
 
-## Usage
-
 The project's goal is to keep as much of the boilerplate setup and driver code
 needed to automate benchmarking, API tracing, and profiling out of the actual
 code you want to test. Ideally, you write a `.rb` containing the code you want
@@ -16,6 +14,22 @@ Custom plugins can be created by dropping an `.rb` file starting with the code
 `require 'rci'` into the `plugins` subdirectory. The plugin can count on all
 framework configuration being complete before the plugin is loaded. The plugin
 is loaded before any COMMAND is executed.
+
+## Setup and Configuration
+
+1. Clone the [GitHub repo](http://github.com/jonforums/measurements)
+   (or extract a [zipball](http://github.com/jonforums/measurements/zipball/master))
+   via `git clone git://github.com/jonforums/measurements.git`
+2. Change to the directory from step (1) and edit the `config.yml` file to your
+   liking. If you want to perform API Tracing via the `trace` command, download
+   [Process Monitor](http://technet.microsoft.com/en-us/sysinternals/bb896645),
+   extract it to a directory, and enter that absolute directory path into the
+   `:tracer:` section of `config.yml` similar to the project's default.
+3. Initialize the framework by running `rci init`
+4. That's it. You're reading to start interrogating Ruby with the included core
+   workloads or custom workloads of your own!
+
+## Usage
 
 <pre><code>
 C:\projects\measurements-git>rci
@@ -43,6 +57,54 @@ where 'exec' CMD_OPTS are:
 
 * Must manually set the environment variable `JRUBY_OPTS=--1.9` to
   interrogate JRuby in 1.9 mode.
+
+## Examples
+
+#### What core workloads are available?
+
+    C:\measurements>rci ls
+    
+    === Known Workloads ===
+     * core_brd_filelines_crlf
+     * core_brd_filelines_lf
+     * core_load_missing
+     * core_pi
+     * core_rd_filelines_crlf
+     * core_rd_filelines_lf
+     * core_require_empty
+     * core_require_missing
+
+#### How do I benchmark a workload?
+
+    C:\measurements>rci bench core_require_missing
+    ruby 1.9.2p174 (2011-01-28 revision 30696) [i386-mingw32]
+    Rehearsal --------------------------------------------------------
+    core_require_missing  10.998000  20.327000  31.325000 ( 31.403797)
+    ---------------------------------------------- total: 31.325000sec
+    
+                               user     system      total        real
+    core_require_missing  11.232000  20.187000  31.419000 ( 31.631809)
+
+#### How do I benchmark a workload and and disable RubyGems?
+
+    C:\measurements>rci --disable-gems bench core_pi
+    ruby 1.9.3dev (2011-02-08 trunk 30825) [i386-mingw32]
+    RubyGems disabled
+    Rehearsal ------------------------------------------
+    core_pi  1.606000   0.328000   1.934000 (  1.939111)
+    --------------------------------- total: 1.934000sec
+    
+                 user     system      total        real
+    core_pi  1.701000   0.202000   1.903000 (  1.923110)
+
+#### How do I execute a workload and pause to profile it?
+
+    C:\measurements>rci exec core_brd_filelines_crlf --pause
+    Press <ENTER> to start executing workload:
+    
+    [INFO] executing 'core_brd_filelines_crlf' workload
+    
+    Press <ENTER> to finish:
 
 ## License
 
