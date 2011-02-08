@@ -25,6 +25,7 @@ module RCI
       pre_init
 
       generate_empty_files
+      generate_text_files
 
       post_init
     end
@@ -38,6 +39,23 @@ module RCI
       end
     end
     private_class_method :generate_empty_files
+
+    def self.generate_text_files
+      puts '[INFO] generating big text test files...'
+      s = [
+        'Ipsum lorem ipsum dipsum dippity do cicero quotes from some lame book that one does',
+      ]
+
+      { 'core_lf.txt' => '\n', 'core_crlf.txt' => '\r\n' }.each_pair do |k,v|
+        File.open(File.join(RCI::WORLD_CONFIG[:core_input], k), 'wb') do |f|
+          200_000.times do
+            f.write("#{s[0]}#{v}")
+          end
+        end
+      end
+
+    end
+    private_class_method :generate_text_files
 
   end
 end

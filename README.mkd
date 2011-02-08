@@ -45,8 +45,6 @@ where 'exec' CMD_OPTS are:
   `pik run rci --disable-gems bench all` less graceful.
 * Must manually set the environment variable `JRUBY_OPTS=--1.9` to
   interrogate JRuby in 1.9 mode.
-* As `init` is partially implemented, one must manually create the large text
-  file `input\lesmiserables.txt` so `rci bench core_read_file_lines` works.
 
 ## License
 
@@ -54,8 +52,6 @@ where 'exec' CMD_OPTS are:
 
 ## TODO
 
-* finish implementing `init` command
-* generate all `input\*` test input files from `init`
 * implement cmd line regex workload matching for benchmarking
 * fix JRuby problem in `processmonitor.rb` when running `trace`
 * extract cmd line arg parsing from `rci.bat` to C .exe
