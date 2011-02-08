@@ -106,6 +106,54 @@ where 'exec' CMD_OPTS are:
     
     Press <ENTER> to finish:
 
+#### How do I use [pik](https://github.com/vertiginous/pik) to benchmark with multiple Rubies?
+
+    C:\measurements>pik run rci --disable-gems bench core_pi
+    
+    jruby 1.6.0.RC1 (ruby 1.8.7 patchlevel 330) (2011-01-10 769f847)
+    (Java HotSpot(TM) Client VM 1.6.0_23) [Windows 7-x86-java]
+    Rehearsal -------------------------------------------
+    core_pi   2.437000   0.000000   2.437000 (  2.417000)
+    ---------------------------------- total: 2.437000sec
+    
+                  user     system      total        real
+    core_pi   2.357000   0.000000   2.357000 (  2.357000)
+    
+    ruby 1.8.7 (2010-12-23 patchlevel 330) [i386-mingw32]
+    Rehearsal -------------------------------------------
+    core_pi   1.778000   0.328000   2.106000 (  2.100120)
+    ---------------------------------- total: 2.106000sec
+    
+                  user     system      total        real
+    core_pi   1.857000   0.234000   2.091000 (  2.137122)
+    
+    ruby 1.9.2p174 (2011-01-28 revision 30696) [i386-mingw32]
+    RubyGems disabled
+    Rehearsal -------------------------------------------
+    core_pi   1.669000   0.156000   1.825000 (  1.879108)
+    ---------------------------------- total: 1.825000sec
+    
+                  user     system      total        real
+    core_pi   1.607000   0.234000   1.841000 (  1.865107)
+    
+    ruby 1.9.3dev (2011-02-02 trunk 30760) [i386-mingw32]
+    RubyGems disabled
+    Rehearsal ------------------------------------------
+    core_pi  1.763000   0.219000   1.982000 (  1.980113)
+    --------------------------------- total: 1.982000sec
+    
+                 user     system      total        real
+    core_pi  1.731000   0.218000   1.949000 (  1.952112)
+
+    ruby 1.9.3dev (2011-02-08 trunk 30825) [i386-mingw32]
+    RubyGems disabled
+    Rehearsal ------------------------------------------
+    core_pi  1.701000   0.234000   1.935000 (  1.928110)
+    --------------------------------- total: 1.935000sec
+    
+                 user     system      total        real
+    core_pi  1.747000   0.172000   1.919000 (  1.927110)
+
 ## License
 
 3-clause BSD. See project LICENSE file.
