@@ -1,9 +1,9 @@
 :: Copyright (c) 2011, Jon Maken
 :: License: 3-clause BSD (see project LICENSE file)
-:: Revision: 02/01/2011 9:52:50 AM
+:: Revision: 02/08/2011 11:23:01 AM
 
 @echo off
-setlocal
+setlocal ENABLEDELAYEDEXPANSION ENABLEEXTENSIONS
 :: echo initial:
 :: echo   %%0 = %0
 :: echo   %%* = %*
@@ -16,11 +16,22 @@ if ERRORLEVEL 1 (
   set RUBY=jruby.exe
 )
 
+:: DANGER - this causes you to become a Luddite
+for /F "usebackq tokens=1,2* delims= " %%i in (`%RUBY% --version`) do (
+  set TMP=%%j
+  set RB_MAJOR_VER=!TMP:~,3!
+)
+
 :: FIXME - fragile, extract to C .exe returning a canonical string
 if "x%1" == "x--disable-gems" (
   set RB_OPTS=%1
   for /F "tokens=1*" %%i in ("%*") do (
-    set SCRIPT_ARGS=%%j --disable-gems
+    if "x%RB_MAJOR_VER%x" == "x1.8x" (
+      set RB_OPTS=
+      set SCRIPT_ARGS=%%j
+    ) else (
+      set SCRIPT_ARGS=%%j --disable-gems
+    )
   )
 ) else (
   set RB_OPTS=
