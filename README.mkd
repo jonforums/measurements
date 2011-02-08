@@ -34,7 +34,7 @@ is loaded before any COMMAND is executed.
 <pre><code>
 C:\projects\measurements-git>rci
 
-usage: rci [RUBY_OPTS] COMMAND
+usage: rci [RUBY_OPTS] COMMAND [CMD_OPTS]
 
 where COMMAND is one of:
 
