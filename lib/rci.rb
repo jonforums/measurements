@@ -35,7 +35,7 @@ module RCI
   WORLD_CONFIG[:logs_dir] = unless RCI::USER_CONFIG[:dirs][:logs]
                               File.join(RCI_ROOT, 'logs')
                             else
-                              File.join(RCI_ROOT, RCI::USER_CONFIG[:dirs][:logs])
+                              RCI::USER_CONFIG[:dirs][:logs]
                             end
 
   # hook infrastructure
