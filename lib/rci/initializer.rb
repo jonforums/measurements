@@ -37,6 +37,12 @@ module RCI
       100.times do |i|
         FileUtils.touch(File.join(empty_dir, "empty#{i}.rb"))
       end
+
+      nested_dir = File.join(empty_dir, 'a', 'b', 'c', 'd', 'e')
+      FileUtils.mkdir_p(nested_dir) unless File.directory?(nested_dir)
+      100.times do |i|
+        FileUtils.touch(File.join(nested_dir, "nested_empty#{i}.rb"))
+      end
     end
     private_class_method :generate_empty_files
 
