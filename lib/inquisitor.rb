@@ -100,14 +100,22 @@ EOT
     n = RCI::USER_CONFIG[:bench][:iterations]
     puts '%s' % RUBY_DESCRIPTION
     puts 'RubyGems disabled' if @options[:disable_gems]
-    Benchmark.bmbm do |bm|
-      targets.each do |target|
-        bm.report "#{File.basename(target)[/\w*/]}" do
-          n.times do
-            load target
+    begin
+      Benchmark.bmbm do |bm|
+        targets.each do |target|
+          bm.report "#{File.basename(target)[/\w*/]}" do
+            n.times do
+              load target
+            end
           end
         end
       end
+    rescue StandardError, LoadError => ex
+      puts <<-EOT
+\n
+[ERROR] problem benchmarking workload, did you run 'rci init' first?
+mesage: #{ex.message}
+EOT
     end
 
   end
