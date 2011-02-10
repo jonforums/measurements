@@ -97,6 +97,9 @@ EOT
 
     require 'benchmark'
 
+    # TODO validate need for $LOADED_FEATURES refresh
+    cache = $LOADED_FEATURES.dup
+
     n = RCI::USER_CONFIG[:bench][:iterations]
     puts '%s' % RUBY_DESCRIPTION
     puts 'RubyGems disabled' if @options[:disable_gems]
@@ -105,6 +108,8 @@ EOT
         targets.each do |target|
           bm.report "#{File.basename(target)[/\w*/]}" do
             n.times do
+              $LOADED_FEATURES.clear
+              $LOADED_FEATURES.concat(cache)
               load target
             end
           end

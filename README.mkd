@@ -164,6 +164,7 @@ where 'exec' CMD_OPTS are:
 
 ## TODO
 
+* PRIORITY: resetting $LOADED_FEATURES between bm iterations valid?
 * implement cmd line regex workload matching for benchmarking
 * fix JRuby problem in `processmonitor.rb` when running `trace`
 * extract cmd line arg parsing from `rci.bat` to C .exe
