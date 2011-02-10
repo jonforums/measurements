@@ -17,6 +17,7 @@ where COMMAND is one of:
   init            initialize environment
   ls              list all workloads
   trace W         trace workload W
+  profile W       profile workload W
 
 where RUBY_OPTS are:
 
@@ -72,6 +73,29 @@ EOT
 
   end
   private_class_method :trace
+
+  def self.profile(*args)
+    abort '[ERROR] must provide a profiling workload' if args.first.nil?
+
+    workload = '%s.rb' % args.first
+    target = File.join(RCI::WORLD_CONFIG[:core_workloads], workload)
+    abort "[ERROR] unknown profile workload '#{workload[/\w*/]}'" unless File.exists?(target)
+
+    active_profiler = RCI::USER_CONFIG[:profiler].select {|t| t[:active] }.first
+
+    begin
+      profiler_name = active_profiler[:name]
+      require "profilers/#{profiler_name.downcase}"
+      profiler = eval("RCI::Profilers::#{profiler_name}.new('#{active_profiler[:exe]}')")
+
+      puts "[INFO] profiling with '#{profiler_name}' provider"
+      profiler.call :target => target, :disable_gems => @options[:disable_gems]
+    rescue => ex
+      abort "[ERROR] problems loading/running '#{active_profiler[:name]}' profiler"
+    end
+
+  end
+  private_class_method :profile
 
   def self.bench(*args)
     abort '[ERROR] must provide a benchmarking workload' if args.first.nil?
@@ -174,7 +198,8 @@ EOT
          ARGV.delete('exec')  ||
          ARGV.delete('init')  ||
          ARGV.delete('ls')    ||
-         ARGV.delete('trace')
+         ARGV.delete('trace') ||
+         ARGV.delete('profile')
   @cmd = ARGV[0] if @cmd.nil?
 
   # TODO review this way of sending in a subcommand or a workload

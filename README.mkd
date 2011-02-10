@@ -43,6 +43,7 @@ where COMMAND is one of:
   init            initialize environment
   ls              list all workloads
   trace W         trace workload W
+  profile W       profile workload W
 
 where RUBY_OPTS are:
 
@@ -166,7 +167,7 @@ where 'exec' CMD_OPTS are:
 
 ## TODO
 
-* PRIORITY: resetting $LOADED_FEATURES between bm iterations valid?
+* too much code duplication; DRY it up after basic functionality
 * implement cmd line regex workload matching for benchmarking
 * fix JRuby problem in `processmonitor.rb` when running `trace`
 * extract cmd line arg parsing from `rci.bat` to C .exe

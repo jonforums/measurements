@@ -14,6 +14,13 @@
     :active: false
     :exe: c:/winsystools/APIMonitor/apimonitor-x86.exe
 
+# Profiler configuration
+:profiler:
+  -
+    :name: AmplifierXE
+    :active: true
+    :exe: C:/Program Files/Intel/VTune Amplifier XE 2011/bin32/amplxe-cl.exe
+
 # Benchmarking configuration
 :bench:
   :iterations: 3
