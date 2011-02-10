@@ -1,3 +1,4 @@
+input/
 logs/
 plugins/
 !workloads/core_*.rb
