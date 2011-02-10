@@ -65,6 +65,7 @@ where 'exec' CMD_OPTS are:
     C:\measurements>rci ls
     
     === Known Workloads ===
+
      * core_brd_filelines_crlf
      * core_brd_filelines_lf
      * core_load_missing
@@ -73,6 +74,7 @@ where 'exec' CMD_OPTS are:
      * core_rd_filelines_lf
      * core_require_empty
      * core_require_missing
+     * core_require_nested
 
 #### How do I benchmark a workload?
 
