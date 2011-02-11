@@ -1,7 +1,7 @@
 # additional user-defined (fully qualified) directories
 :dirs:
   :workloads: c:/workloads
-  :logs: c:/logs
+  #:logs: c:/logs
 
 # API tracer configuration
 :tracer:
