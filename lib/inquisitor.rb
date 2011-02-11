@@ -35,7 +35,16 @@ EOT
   end
 
   def self.run
-    send(@cmd.to_sym, @tgt)
+    unless @cmd =~ /ls|init/ || @tgt
+      abort "[ERROR] must provide a workload to '#{@cmd}'"
+    end
+
+    case @cmd
+    when 'trace', 'profile'
+      provider(@cmd, @tgt)
+    else
+      send(@cmd.to_sym, @tgt)
+    end
   end
 
   def self.init(*args)
@@ -51,54 +60,26 @@ EOT
   end
   private_class_method :ls
 
-  def self.trace(*args)
-    abort '[ERROR] must provide an API tracing workload' if args.first.nil?
+  def self.provider(cmd, wkld, *args)
 
-    workload = '%s.rb' % args.first
-    target = File.join(RCI::WORLD_CONFIG[:core_workloads], workload)
-    abort "[ERROR] unknown trace workload '#{workload[/\w*/]}'" unless File.exists?(target)
-
-    active_tracer = RCI::USER_CONFIG[:tracer].select {|t| t[:active] }.first
+    target = workload_target(cmd, wkld)
+    active_tool = RCI::USER_CONFIG["#{cmd}r".to_sym].select {|t| t[:active] }.first
 
     begin
-      tracer_name = active_tracer[:name]
-      require "tracers/#{tracer_name.downcase}"
-      tracer = eval("RCI::Tracers::#{tracer_name}.new('#{active_tracer[:exe]}')")
+      tool_name = active_tool[:name]
+      require "#{cmd}rs/#{tool_name.downcase}"
+      tool = eval("RCI::#{cmd.capitalize}rs::#{tool_name}.new('#{active_tool[:exe]}')")
 
-      puts "[INFO] tracing with '#{tracer_name}' API trace provider"
-      tracer.call :target => target, :disable_gems => @options[:disable_gems]
+      puts "[INFO] running '#{tool_name}' #{cmd} provider"
+      tool.call :target => target, :disable_gems => @options[:disable_gems]
     rescue => ex
-      abort "[ERROR] problems loading/running '#{active_tracer[:name]}' API tracer"
+      abort "[ERROR] problem loading/running '#{tool_name}' provider"
     end
 
   end
-  private_class_method :trace
-
-  def self.profile(*args)
-    abort '[ERROR] must provide a profiling workload' if args.first.nil?
-
-    workload = '%s.rb' % args.first
-    target = File.join(RCI::WORLD_CONFIG[:core_workloads], workload)
-    abort "[ERROR] unknown profile workload '#{workload[/\w*/]}'" unless File.exists?(target)
-
-    active_profiler = RCI::USER_CONFIG[:profiler].select {|t| t[:active] }.first
-
-    begin
-      profiler_name = active_profiler[:name]
-      require "profilers/#{profiler_name.downcase}"
-      profiler = eval("RCI::Profilers::#{profiler_name}.new('#{active_profiler[:exe]}')")
-
-      puts "[INFO] profiling with '#{profiler_name}' provider"
-      profiler.call :target => target, :disable_gems => @options[:disable_gems]
-    rescue => ex
-      abort "[ERROR] problems loading/running '#{active_profiler[:name]}' profiler"
-    end
-
-  end
-  private_class_method :profile
+  private_class_method :provider
 
   def self.bench(*args)
-    abort '[ERROR] must provide a benchmarking workload' if args.first.nil?
 
     workload = case args.first
                when /\Aall\z/i
@@ -121,10 +102,9 @@ EOT
 
     require 'benchmark'
 
-    # TODO validate need for $LOADED_FEATURES refresh
     cache = $LOADED_FEATURES.dup
-
     n = RCI::USER_CONFIG[:bench][:iterations]
+
     puts '%s' % RUBY_DESCRIPTION
     puts 'RubyGems disabled' if @options[:disable_gems]
     begin
@@ -151,22 +131,20 @@ EOT
   private_class_method :bench
 
   def self.exec(*args)
-    abort '[ERROR] must provide a workload to execute' if args.first.nil?
 
-    workload = '%s.rb' % args.first
-    target = File.join(RCI::WORLD_CONFIG[:core_workloads], workload)
-    abort "[ERROR] unknown exec workload '#{workload[/\w*/]}'" unless File.exists?(target)
+    wkld = args.first
+    target = workload_target('exec', wkld)
 
     if @options[:pause]
       print 'Press <ENTER> to start executing workload: '
       gets
     end
 
-    print "\n[INFO] executing '#{workload[/\w*/]}' workload\n\n"
+    print "\n[INFO] executing '#{wkld[/\w*/]}' workload\n\n"
     begin
       load target
     rescue => ex
-      abort "[ERROR] problem executing '#{workload[/\w*/]}' workload"
+      abort "[ERROR] problem executing '#{wkld[/\w*/]}' workload"
     end
 
     if @options[:pause]
@@ -175,6 +153,14 @@ EOT
     end
   end
   private_class_method :exec
+
+  def self.workload_target(cmd, wkld)
+    workload = '%s.rb' % wkld
+    target = File.join(RCI::WORLD_CONFIG[:core_workloads], workload)
+    abort "[ERROR] unknown #{cmd} workload '#{workload[/\w*/]}'" unless File.exists?(target)
+    target
+  end
+  private_class_method :workload_target
 
   def self.method_missing(method, *args)
     puts "[ERROR] I don\'t understand the '#{method}' command :("
@@ -194,6 +180,7 @@ EOT
   end
   @options[:pause] = ARGV.delete('--pause')
 
+  # FIXME overwrites due to sequencing issue
   @cmd = ARGV.delete('bench') ||
          ARGV.delete('exec')  ||
          ARGV.delete('init')  ||
