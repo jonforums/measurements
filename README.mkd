@@ -15,6 +15,9 @@ Custom plugins can be created by dropping an `.rb` file starting with the code
 framework configuration being complete before the plugin is loaded. The plugin
 is loaded before any COMMAND is executed.
 
+Using the `trace` or `profile` commands typically requires the use of an
+administrator level shell.
+
 ## Setup and Configuration
 
 1. Clone the [GitHub repo](http://github.com/jonforums/measurements)
@@ -160,6 +163,20 @@ where 'exec' CMD_OPTS are:
     
                  user     system      total        real
     core_pi  1.747000   0.172000   1.919000 (  1.927110)
+
+#### How do I easily profile a workload but not use the manual `exec --pause` method?
+
+Assuming you have a a profiler provider properly configured in
+`config.yml`, you can run something similar to:
+
+    C:\projects\measurements-git>rci --disable-gems profile core_pi
+    [INFO] running 'AmplifierXE' profile provider
+
+    Summary
+    -------
+
+    Elapsed Time:  1.014
+    CPU Time:      0.685
 
 ## License
 
