@@ -17,7 +17,7 @@ module RCI
         #puts "Ruby: %s\ndisable_gems: %s\ntracer: %s\ntarget:%s" %
         #      [ RCI.ruby, @exe, env[:disable_gems], env[:target] ]
 
-        log_file = 'api_trace_%s.pml' % Time.now.strftime('%Y-%m-%dT%k_%M_%S')
+        log_file = 'api_trace_%s.pml' % Time.now.strftime('%Y-%m-%dT%H_%M_%S')
         system("start #{@exe} /quiet /minimized /backingfile #{File.join(RCI::WORLD_CONFIG[:logs_dir], log_file)}")
         system("#{@exe} /waitforidle")
         system("#{RCI.ruby} #{env[:disable_gems]} \"#{env[:target]}\"")
