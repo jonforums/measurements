@@ -184,12 +184,13 @@ Assuming you have a a profiler provider properly configured in
 
 ## TODO
 
-* implement cmd line regex workload matching for benchmarking
 * fix JRuby problem in `processmonitor.rb` when running `trace`
-* extract cmd line arg parsing from `rci.bat` to C .exe
-* create `rci.ps1`
-* create `rci.sh` and implement `trace` (strace or ltrace) on Linux
+* create `rci` (bash) and implement `trace` (strace or ltrace) on Linux
 * make all execution code non-Windows specific
+* investigate adding `measure` command using `hitimes` gem
+* create `rci.ps1`
+* extract cmd line arg parsing from `rci.bat` to C .exe
 * support both system and user `workloads` and `input` working dirs
 * implement basic benchmarking statistics
+* implement cmd line regex workload matching for benchmarking
 * gemify?
