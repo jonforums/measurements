@@ -5,33 +5,16 @@ require 'rci/initializer'
 
 module Inquisitor
 
-  def self.usage
-<<-EOT
-
-usage: rci [RUBY_OPTS] COMMAND [CMD_OPTS]
-
-where COMMAND is one of:
-
-  bench <W|all>   benchmark workload W or all workloads
-  exec W          execute workload W
-  init            initialize environment
-  ls              list all workloads
-  trace W         trace workload W
-  profile W       profile workload W
-
-where RUBY_OPTS are:
-
-  --disable-gems  disable RubyGems use
-
-where 'exec' CMD_OPTS are:
-
-  --pause         pause before/after running workload
-EOT
+  def self.cmd=(cmd)
+    @cmd = cmd
   end
 
-  def self.usage_and_exit
-    $stderr.puts usage
-    exit(-1)
+  def self.tgt=(tgt)
+    @tgt = tgt
+  end
+
+  def self.options=(opts)
+    @options = opts
   end
 
   def self.run
@@ -53,7 +36,7 @@ EOT
   private_class_method :init
 
   def self.ls(*args)
-    puts "\n=== Known Workloads ==="
+    puts "\n=== Known Workloads ===\n\n"
     Dir.glob(File.join(RCI::WORLD_CONFIG[:core_workloads], '*.rb')) do |f|
       puts " * #{File.basename(f)[/(\w*)/]}"
     end
@@ -63,7 +46,7 @@ EOT
   def self.provider(cmd, wkld, *args)
 
     target = workload_target(cmd, wkld)
-    active_tool = RCI::USER_CONFIG["#{cmd}r".to_sym].select {|t| t[:active] }.first
+    active_tool = get_active_tool(cmd)
 
     begin
       tool_name = active_tool[:name]
@@ -162,36 +145,14 @@ EOT
   end
   private_class_method :workload_target
 
+  def self.get_active_tool(group)
+    RCI::USER_CONFIG["#{group}r".to_sym].select {|t| t[:active] }.first
+  end
+  private_class_method :get_active_tool
+
   def self.method_missing(method, *args)
     puts "[ERROR] I don\'t understand the '#{method}' command :("
-    Inquisitor.usage_and_exit
+    RCI.usage_and_exit
   end
-
-  # parse args and options
-  if ARGV.empty? || ARGV.delete('--help') || ARGV.delete('-h')
-    Inquisitor.usage_and_exit
-  end
-
-  @options = {}
-  if RUBY_VERSION < '1.9'
-    ARGV.delete('--disable-gems')
-  else
-    @options[:disable_gems] = ARGV.delete('--disable-gems')
-  end
-  @options[:pause] = ARGV.delete('--pause')
-
-  # FIXME overwrites due to sequencing issue
-  @cmd = ARGV.delete('bench') ||
-         ARGV.delete('exec')  ||
-         ARGV.delete('init')  ||
-         ARGV.delete('ls')    ||
-         ARGV.delete('trace') ||
-         ARGV.delete('profile')
-  @cmd = ARGV[0] if @cmd.nil?
-
-  # TODO review this way of sending in a subcommand or a workload
-  @tgt = ARGV.shift unless ARGV.empty?
-
-  Inquisitor.usage_and_exit unless ARGV.empty?
 
 end  # module Inquisitor

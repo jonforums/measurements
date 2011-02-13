@@ -1,6 +1,6 @@
 :: Copyright (c) 2011, Jon Maken
 :: License: 3-clause BSD (see project LICENSE file)
-:: Revision: 02/08/2011 11:23:01 AM
+:: Revision: 02/13/2011 10:17:30 AM
 
 @echo off
 setlocal ENABLEDELAYEDEXPANSION ENABLEEXTENSIONS
@@ -48,12 +48,9 @@ if "x%1" == "x--disable-gems" (
 endlocal
 exit /b
 #!ruby
-RCI_ROOT = File.expand_path(File.dirname(__FILE__))
-$LOAD_PATH.unshift(File.join(RCI_ROOT, 'lib'))
-$LOAD_PATH.unshift(File.join(RCI_ROOT))
+$:.unshift(File.join(File.expand_path(File.dirname(__FILE__)), 'lib'))
 
 require 'rci'
-require 'inquisitor'
 
 # load all plugins
 Dir.glob('plugins/*.rb').sort.each do |p|
