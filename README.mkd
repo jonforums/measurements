@@ -28,7 +28,7 @@ administrator level shell.
    download [Process Monitor](http://technet.microsoft.com/en-us/sysinternals/bb896645),
    extract it to a directory, and enter that absolute directory path into the
    `:tracer:` section of `config.yml`, similar to the project's default.
-3. Initialize the framework by running `rci init`
+3. Initialize the framework by running `rci init` (Windows) or `./rci init` (Linux)
 4. That's it. You're ready to start interrogating Ruby with the included core
    workloads or custom workloads of your own!
 
@@ -184,10 +184,12 @@ Assuming you have a a profiler provider properly configured in
 
 ## TODO
 
-* fix JRuby problem in `processmonitor.rb` when running `trace`
-* create `rci` (bash) and implement `trace` (strace or ltrace) on Linux
+* add basic specs using `minitest/spec`
+* fix JRuby problem in `processmonitor.rb` (`IO.popen`?) when running `trace`
+* implement `trace` (strace or ltrace) on Linux
 * make all execution code non-Windows specific
 * investigate adding `measure` command using `hitimes` gem
+* implement `profile` on Linux; first update `AmplifierXE` provider
 * create `rci.ps1`
 * extract cmd line arg parsing from `rci.bat` to C .exe
 * support both system and user `workloads` and `input` working dirs
