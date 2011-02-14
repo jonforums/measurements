@@ -1,0 +1,9 @@
+## 0.3.0 / 2011-02-14
+  * Major:
+    * Graduate from the scouting phase
+    * Add VTune profiler provider
+  * Minor:
+    * Add initial Linux support
+  * Bug Fixes:
+    * Missing `input` dir causes `init` failure
+    * Invalid log timestamping causes spaced filename failures
