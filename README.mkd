@@ -27,7 +27,10 @@ administrator level shell.
    liking. If you want to perform API Tracing on Windows via the `trace` command,
    download [Process Monitor](http://technet.microsoft.com/en-us/sysinternals/bb896645),
    extract it to a directory, and enter that absolute directory path into the
-   `:tracer:` section of `config.yml`, similar to the project's default.
+   `:tracer:` section of `config.yml`, similar to the project's default. If you
+   want to perform profiling on Windows, configure the `:profiler:` section.
+   Currently, only support for [VTune AmplifierXE](http://software.intel.com/en-us/articles/intel-vtune-amplifier-xe/)
+   has been implemented.
 3. Initialize the framework by running `rci init` (Windows) or `./rci init` (Linux)
 4. That's it. You're ready to start interrogating Ruby with the included core
    workloads or custom workloads of your own!
