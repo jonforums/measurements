@@ -33,7 +33,7 @@ module RCI
     def self.generate_empty_files
       puts '[INFO] generating empty test files...'
       empty_dir = File.join(RCI::WORLD_CONFIG[:core_input], 'empty_files')
-      FileUtils.mkdir(empty_dir) unless File.directory?(empty_dir)
+      FileUtils.mkdir_p(empty_dir) unless File.directory?(empty_dir)
       100.times do |i|
         FileUtils.touch(File.join(empty_dir, "empty#{i}.rb"))
       end
