@@ -11,6 +11,9 @@ module RCI
       end
 
       def call(env)
+
+        abort '[TODO] implement AmplifierXE profile provider on Linux...' unless RCI.windows?
+
         cmd = "\"#{@exe}\""
         cmd << ' -collect hotspots -knob accurate-cpu-time-detection=true -follow-child'
         cmd << ' -target-duration-type=short -no-allow-multiple-runs -no-analyze-system'

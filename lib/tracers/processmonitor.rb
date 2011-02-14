@@ -17,6 +17,8 @@ module RCI
         #puts "Ruby: %s\ndisable_gems: %s\ntracer: %s\ntarget:%s" %
         #      [ RCI.ruby, @exe, env[:disable_gems], env[:target] ]
 
+        abort '[ERROR] ProcessMonitor trace provider only supported on Windows' unless RCI.windows?
+
         log_file = 'api_trace_%s.pml' % Time.now.strftime('%Y-%m-%dT%H_%M_%S')
         system("start #{@exe} /quiet /minimized /backingfile #{File.join(RCI::WORLD_CONFIG[:logs_dir], log_file)}")
         system("#{@exe} /waitforidle")

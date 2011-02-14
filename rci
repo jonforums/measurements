@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+# Copyright (c) 2011, Jon Maken
+# License: 3-clause BSD (see project LICENSE file)
+# Revision: 02/14/2011 10:11:14 AM
+
+# FIXME - broken if both flavors on PATH
+#jruby --version > /dev/null 2>&1
+my_ruby=`which jruby 2> /dev/null`
+if [[ $? -ne 0 ]]; then
+	my_ruby=`which ruby 2> /dev/null`
+fi
+
+rb_major_ver=`$my_ruby --version | cut -d' ' -f2 | cut -b1-3`
+
+if [[ "$1" == '--disable-gems' ]]; then
+	rb_opts=$1
+	shift
+	if [[ "$rb_major_ver" == '1.8' ]]; then
+		unset rb_opts
+		script_args=$*
+	else
+		script_args="$* --disable-gems"
+	fi
+else
+	script_args=$*
+fi
+
+$my_ruby $rb_opts -x $0 $script_args
+exit 0
+#!/usr/bin/env ruby
+$:.unshift(File.join(File.expand_path(File.dirname(__FILE__)), 'lib'))
+
+require 'rci'
+
+# load all plugins
+Dir.glob('plugins/*.rb').sort.each do |p|
+  begin
+    require p
+  rescue => ex
+    warn '[WARN] problem loading \'%s\' plugin: %s' %
+         [ File.basename(p)[/\w*/], ex.message ]
+  end
+end
+
+Inquisitor.run
