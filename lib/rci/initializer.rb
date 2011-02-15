@@ -24,11 +24,23 @@ module RCI
     def self.init(*args)
       pre_init
 
+      generate_dirs
       generate_empty_files
       generate_text_files
 
       post_init
     end
+
+    def self.generate_dirs
+      puts '[INFO] generating required directories...'
+      unless File.directory?(RCI::WORLD_CONFIG[:core_input])
+        FileUtils.mkdir_p(RCI::WORLD_CONFIG[:core_input])
+      end
+      unless File.directory?(RCI::WORLD_CONFIG[:logs_dir])
+        FileUtils.mkdir_p(RCI::WORLD_CONFIG[:logs_dir])
+      end
+    end
+    private_class_method :generate_dirs
 
     def self.generate_empty_files
       puts '[INFO] generating empty test files...'
