@@ -75,12 +75,10 @@ where 'exec' CMD_OPTS are:
 
      * core_brd_filelines_crlf
      * core_brd_filelines_lf
-     * core_load_missing
      * core_pi
      * core_rd_filelines_crlf
      * core_rd_filelines_lf
      * core_require_empty
-     * core_require_missing
      * core_require_nested
 
 #### How do I benchmark a workload?
@@ -189,10 +187,11 @@ Assuming you have a a profiler provider properly configured in
 
 * add basic specs using `minitest/spec`
 * fix JRuby problem in `processmonitor.rb` (`IO.popen`?) when running `trace`
-* implement `trace` (strace or ltrace) on Linux
+* implement `trace` (strace and ltrace) on Linux
+* add `--provider P` to `trace` and `profile` commands
+* embed `trollop` if cmd line parsing becomes too burdensome
 * make all execution code non-Windows specific
 * investigate adding `measure` command using `hitimes` gem
-* implement `profile` on Linux; first update `AmplifierXE` provider
 * create `rci.ps1`
 * extract cmd line arg parsing from `rci.bat` to C .exe
 * support both system and user `workloads` and `input` working dirs
