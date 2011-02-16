@@ -150,9 +150,4 @@ EOT
   end
   private_class_method :get_active_tool
 
-  def self.method_missing(method, *args)
-    puts "[ERROR] I don\'t understand the '#{method}' command :("
-    RCI.usage_and_exit
-  end
-
 end  # module Inquisitor
