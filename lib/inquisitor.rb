@@ -95,9 +95,9 @@ module Inquisitor
         targets.each do |target|
           bm.report "#{File.basename(target)[/\w*/]}" do
             n.times do
+              load target
               $LOADED_FEATURES.clear
               $LOADED_FEATURES.concat(cache)
-              load target
             end
           end
         end
