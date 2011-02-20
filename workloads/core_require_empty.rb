@@ -5,4 +5,5 @@ in_dir = File.join(File.expand_path(File.dirname(__FILE__)), '..', 'input', 'emp
     f = 'empty%s' % i
     require "#{File.join(in_dir, f)}"
   end
+  $LOADED_FEATURES.clear
 end
