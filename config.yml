@@ -1,3 +1,6 @@
+# general configuration
+:extended_iterations: 40
+
 # additional user-defined (fully qualified) directories
 :dirs:
   :workloads: c:/workloads

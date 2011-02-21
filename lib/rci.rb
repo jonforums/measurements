@@ -13,20 +13,20 @@ module RCI
 usage: rci [RUBY_OPTS] COMMAND [CMD_OPTS]
 
 where COMMAND is one of:
-
   bench <W|all>   benchmark workload W or all workloads
   exec W          execute workload W
   init            initialize environment
   ls              list all workloads
-  trace W         trace workload W
   profile W       profile workload W
+  trace W         trace workload W
 
 where RUBY_OPTS are:
-
   --disable-gems  disable RubyGems use
 
-where 'exec' CMD_OPTS are:
+where common CMD_OPTS are:
+  --extended      use extended duration workload
 
+where 'exec' CMD_OPTS are:
   --pause         pause before/after running workload
 EOT
   end
@@ -36,7 +36,7 @@ EOT
     exit(-1)
   end
 
-  # parse args and options
+  # parse args and options; go trollop if becomes too ugly
   if ARGV.empty? || ARGV.delete('--help') || ARGV.delete('-h')
     RCI.usage_and_exit
   end
@@ -48,14 +48,15 @@ EOT
     options[:disable_gems] = ARGV.delete('--disable-gems')
   end
   options[:pause] = ARGV.delete('--pause')
+  options[:extended] = ARGV.delete('--extended')
 
   # FIXME overwrites due to sequencing issue
-  cmd = ARGV.delete('bench') ||
-        ARGV.delete('exec')  ||
-        ARGV.delete('init')  ||
-        ARGV.delete('ls')    ||
-        ARGV.delete('trace') ||
-        ARGV.delete('profile')
+  cmd = ARGV.delete('bench')   ||
+        ARGV.delete('exec')    ||
+        ARGV.delete('init')    ||
+        ARGV.delete('ls')      ||
+        ARGV.delete('profile') ||
+        ARGV.delete('trace')
   cmd = ARGV[0] if cmd.nil?
 
   # TODO review this way of sending in a subcommand or a workload
@@ -93,6 +94,10 @@ EOT
   # basic config.yml checks
   if USER_CONFIG[:tracer].select {|t| t[:active] }.length != 1
     abort "[ERROR] '#{CONFIG_FILE}' must configure only one active tracer"
+  end
+
+  if USER_CONFIG[:extended_iterations] && options[:extended]
+    ENV['MEASURE_EXTENDED'] = USER_CONFIG[:extended_iterations].to_s
   end
 
   # convenience merge of select user config into world config

@@ -5,16 +5,8 @@ require 'rci/initializer'
 
 module Inquisitor
 
-  def self.cmd=(cmd)
-    @cmd = cmd
-  end
-
-  def self.tgt=(tgt)
-    @tgt = tgt
-  end
-
-  def self.options=(opts)
-    @options = opts
+  class << self
+    attr_writer :cmd, :tgt, :options
   end
 
   def self.run
