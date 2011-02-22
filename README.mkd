@@ -43,20 +43,20 @@ C:\projects\measurements-git>rci
 usage: rci [RUBY_OPTS] COMMAND [CMD_OPTS]
 
 where COMMAND is one of:
-
   bench &lt;W|all&gt;   benchmark workload W or all workloads
   exec W          execute workload W
   init            initialize environment
   ls              list all workloads
-  trace W         trace workload W
   profile W       profile workload W
+  trace W         trace workload W
 
 where RUBY_OPTS are:
-
   --disable-gems  disable RubyGems use
 
-where 'exec' CMD_OPTS are:
+where common CMD_OPTS are:
+  --extended      use extended duration workload
 
+where 'exec' CMD_OPTS are:
   --pause         pause before/after running workload
 </code></pre>
 
@@ -170,7 +170,7 @@ where 'exec' CMD_OPTS are:
 Assuming you have a a profiler provider properly configured in
 `config.yml`, you can run something similar to:
 
-    C:\projects\measurements-git>rci --disable-gems profile core_pi
+    C:\measurements>rci --disable-gems profile core_pi
     [INFO] running 'AmplifierXE' profile provider
 
     Summary
@@ -178,6 +178,20 @@ Assuming you have a a profiler provider properly configured in
 
     Elapsed Time:  1.014
     CPU Time:      0.685
+
+#### How do I extend the workload execution time to get more profiling data?
+
+Edit the `:extended_iterations` value in `config.yml` and run something
+similar to:
+
+    C:\measurements>rci --disable-gems profile core_rd_filelines_lf --extended
+    [INFO] running 'AmplifierXE' profile provider
+
+    Summary
+    -------
+
+    Elapsed Time:  407.274
+    CPU Time:      404.298
 
 ## License
 
