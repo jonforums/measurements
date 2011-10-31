@@ -63,7 +63,8 @@ where 'exec' CMD_OPTS are:
 ### Current Usage Warts
 
 * Must manually set the environment variable `JRUBY_OPTS=--1.9` to
-  interrogate JRuby in 1.9 mode.
+  interrogate JRuby in 1.9 mode. As of JRuby 1.6.5, you can also use a
+  `.jrubyrc` file to [configure JRuby](https://github.com/jruby/jruby/wiki/ConfiguringJRuby).
 
 ## Examples
 
