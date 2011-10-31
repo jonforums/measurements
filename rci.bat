@@ -48,7 +48,7 @@ if "x%1" == "x--disable-gems" (
 endlocal
 exit /b
 #!ruby
-$:.unshift(File.join(File.expand_path(File.dirname(__FILE__)), 'lib'))
+$:.unshift File.join(File.expand_path(File.dirname(__FILE__)), 'lib')
 
 require 'rci'
 
