@@ -24,6 +24,10 @@
     :name: AmplifierXE
     :active: true
     :exe: C:/Program Files/Intel/VTune Amplifier XE 2011/bin32/amplxe-cl.exe
+  -
+    :name: AQtime
+    :active: false
+    :exe: C:/Program Files/SmartBear/AQtime 7/Bin/AQtime.exe
 
 # Benchmarking configuration
 :bench:
