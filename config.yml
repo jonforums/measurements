@@ -4,6 +4,7 @@
 # additional user-defined (fully qualified) directories
 :dirs:
   :workloads: c:/workloads
+  :ruby_source: c:/Users/Jon/Documents/RubyDev/ruby-git
   #:logs: c:/logs
 
 # API tracer configuration
