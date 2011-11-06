@@ -7,9 +7,16 @@ require 'rbconfig'
 
 module RCI
 
+  VERSION = '0.4.0'
+
+  def self.version
+    "rci v#{RCI::VERSION} - Ruby Code Inspector"
+  end
+
   def self.usage
 <<-EOT
 
+#{version}
 usage: rci [RUBY_OPTS] COMMAND [CMD_OPTS]
 
 where COMMAND is one of:
@@ -38,7 +45,12 @@ EOT
 
   # parse args and options; go trollop if becomes too ugly
   if ARGV.empty? || ARGV.delete('--help') || ARGV.delete('-h')
-    RCI.usage_and_exit
+    RCI.usage_and_exit(0)
+  end
+
+  if ARGV.delete('--version') || ARGV.delete('-v')
+    $stderr.puts version
+    exit(0)
   end
 
   options = {}
