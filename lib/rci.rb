@@ -27,6 +27,10 @@ where COMMAND is one of:
   profile W       profile workload W
   trace W         trace workload W
 
+generic options:
+  -h, --help      show this help message
+  -v, --version   show RCI version
+
 where RUBY_OPTS are:
   --disable-gems  disable RubyGems use
 
