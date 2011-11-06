@@ -31,9 +31,9 @@ where 'exec' CMD_OPTS are:
 EOT
   end
 
-  def self.usage_and_exit
+  def self.usage_and_exit(code=-1)
     $stderr.puts RCI.usage
-    exit(-1)
+    exit(code)
   end
 
   # parse args and options; go trollop if becomes too ugly

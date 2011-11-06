@@ -18,6 +18,7 @@ module Inquisitor
     when 'trace', 'profile'
       provider(@cmd, @tgt)
     else
+      # FIXME send only allowable commands
       send(@cmd.to_sym, @tgt)
     end
   end
