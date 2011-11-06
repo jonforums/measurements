@@ -200,12 +200,13 @@ similar to:
 
 ## TODO
 
+* fix exception on unknown command; implement known commands list
+* add `rvm` usage example
 * add basic specs using `minitest/spec`
 * fix JRuby problem in `processmonitor.rb` (`IO.popen`?) when running `trace`
 * implement `trace` (strace and ltrace) on Linux
 * add `--provider P` to `trace` and `profile` commands
 * embed `trollop` if cmd line parsing becomes too burdensome
-* make all execution code non-Windows specific
 * investigate adding `measure` command using `hitimes` gem
 * create `rci.ps1`
 * extract cmd line arg parsing from `rci.bat` to C .exe
