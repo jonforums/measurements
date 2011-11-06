@@ -170,6 +170,25 @@ where 'exec' CMD_OPTS are:
                  user     system      total        real
     core_pi  1.747000   0.172000   1.919000 (  1.927110)
 
+#### How do I use [rvm](http://rvm.beginrescueend.com) to benchmark multiple Rubies on Linux?
+
+    [jon@archee measurements-git]$ rvm system,jruby do ./rci bench core_pi
+    ruby 2.0.0dev (2011-11-06 trunk 33644) [i686-linux]
+    Rehearsal -------------------------------------------
+    core_pi   1.690000   0.060000   1.750000 (  1.741412)
+    ---------------------------------- total: 1.750000sec
+    
+                  user     system      total        real
+    core_pi   1.690000   0.050000   1.740000 (  1.738589)
+    
+    jruby 1.6.5 (ruby-1.8.7-p330) (2011-10-25 9dcd388) (Java HotSpot(TM) Client VM 1.7.0_01) [linux-i386-java]
+    Rehearsal -------------------------------------------
+    core_pi   3.027000   0.000000   3.027000 (  2.990000)
+    ---------------------------------- total: 3.027000sec
+    
+                  user     system      total        real
+    core_pi   2.883000   0.000000   2.883000 (  2.882000)
+
 #### How do I easily profile a workload but not use the manual `exec --pause` method?
 
 Assuming you have a a profiler provider properly configured in
@@ -205,7 +224,6 @@ similar to:
 ## TODO
 
 * fix exception on unknown command; implement known commands list
-* add `rvm` usage example
 * add basic specs using `minitest/spec`
 * fix JRuby problem in `processmonitor.rb` (`IO.popen`?) when running `trace`
 * implement `trace` (strace and ltrace) on Linux
