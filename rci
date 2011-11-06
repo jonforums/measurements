@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Copyright (c) 2011, Jon Maken
 # License: 3-clause BSD (see project LICENSE file)
-# Revision: 02/14/2011 10:11:14 AM
+# Revision: 11/06/2011 9:55:16 AM
 
 # FIXME - broken if both flavors on PATH
 #jruby --version > /dev/null 2>&1
@@ -28,7 +28,7 @@ fi
 $my_ruby $rb_opts -x $0 $script_args
 exit 0
 #!/usr/bin/env ruby
-$:.unshift File.join(File.expand_path(File.dirname(__FILE__)), 'lib')
+$:.unshift File.expand_path('lib', File.dirname(__FILE__))
 
 require 'rci'
 

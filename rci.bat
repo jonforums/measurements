@@ -1,6 +1,6 @@
 :: Copyright (c) 2011, Jon Maken
 :: License: 3-clause BSD (see project LICENSE file)
-:: Revision: 02/13/2011 10:17:30 AM
+:: Revision: 11/06/2011 9:55:29 AM
 
 @echo off
 setlocal ENABLEDELAYEDEXPANSION ENABLEEXTENSIONS
@@ -48,7 +48,7 @@ if "x%1" == "x--disable-gems" (
 endlocal
 exit /b
 #!ruby
-$:.unshift File.join(File.expand_path(File.dirname(__FILE__)), 'lib')
+$:.unshift File.expand_path('lib', File.dirname(__FILE__))
 
 require 'rci'
 
