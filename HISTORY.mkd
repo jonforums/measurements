@@ -1,6 +1,7 @@
 ## master branch
   * Major:
     * Use Ruby syntax (not YAML) for configuration file
+    * Add user workload support via `config.rb`'s `:my_workloads`
 
 ## 0.4.0 / 2011-11-06
   * Major:

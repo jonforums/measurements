@@ -29,9 +29,17 @@ module Inquisitor
   private_class_method :init
 
   def self.ls(*args)
-    puts "\n=== Known Workloads ===\n\n"
+    puts "\n=== Core Workloads ===\n\n"
     Dir.glob(File.join(RCI::WORLD_CONFIG[:core_workloads], '*.rb')) do |f|
       puts " * #{File.basename(f)[/(\w*)/]}"
+    end
+
+    user_workloads = RCI::USER_CONFIG[:dirs][:my_workloads]
+    if File.exists?(user_workloads)
+      puts "\n=== My Workloads ===\n\n"
+      Dir.glob(File.join(user_workloads, '*.rb')) do |f|
+        puts " * #{File.basename(f)[/(\w*)/]}"
+      end
     end
   end
   private_class_method :ls
@@ -61,7 +69,7 @@ module Inquisitor
                when /\Aall\z/i
                  'all'
                else
-                 "#{args.first}.rb"
+                 args.first
                end
 
     # TODO implement benchmarking regex selectable workloads
@@ -69,11 +77,7 @@ module Inquisitor
               when /\Aall\z/
                 Dir.glob("#{File.join(RCI::WORLD_CONFIG[:core_workloads], '*.rb')}")
               else
-                f = File.join(RCI::WORLD_CONFIG[:core_workloads], workload)
-                unless File.exists?(f)
-                  abort "[ERROR] unknown '#{workload[/\w*/]}' benchmark workload"
-                end
-                [ f ]
+                [ workload_target('bench', workload) ]
               end
 
     require 'benchmark'
@@ -132,8 +136,17 @@ EOT
 
   def self.workload_target(cmd, wkld)
     workload = '%s.rb' % wkld
-    target = File.join(RCI::WORLD_CONFIG[:core_workloads], workload)
-    abort "[ERROR] unknown #{cmd} workload '#{workload[/\w*/]}'" unless File.exists?(target)
+    target = nil
+    [
+      RCI::WORLD_CONFIG[:core_workloads],
+      RCI::USER_CONFIG[:dirs][:my_workloads]
+    ].each do |d|
+      target = File.join(d, workload)
+      break if File.exists?(target)
+      target = nil
+    end
+    abort "[ERROR] unknown #{cmd} workload '#{workload[/\w*/]}'" unless target
+
     target
   end
   private_class_method :workload_target
