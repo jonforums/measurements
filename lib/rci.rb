@@ -86,7 +86,7 @@ EOT
 
   # configuration setup
   ROOT = File.dirname(File.expand_path('..', __FILE__))
-  CONFIG_FILE = 'config.yml'
+  CONFIG_FILE = 'config.rb'
   WORLD_CONFIG = Hash.new do |cfg,k|
     cfg[k] = RbConfig::CONFIG[k.to_s]
   end
@@ -94,20 +94,13 @@ EOT
   WORLD_CONFIG[:core_workloads] = File.join(RCI::ROOT, 'workloads')
   WORLD_CONFIG[:core_input] = File.join(RCI::ROOT, 'input')
 
-  # prefer Psych YAML engine
   begin
-    require 'psych'
-  rescue LoadError
-  end
-  require 'yaml'
-
-  begin
-    USER_CONFIG = YAML.load_file(File.join(RCI::ROOT, CONFIG_FILE))
-  rescue
+    load File.expand_path(RCI::CONFIG_FILE, RCI::ROOT)
+  rescue Exception
     abort "[ERROR] problem loading '#{CONFIG_FILE}' configuration file"
   end
 
-  # basic config.yml checks
+  # basic configuration checks
   if USER_CONFIG[:tracer].select {|t| t[:active] }.length != 1
     abort "[ERROR] '#{CONFIG_FILE}' must configure only one active tracer"
   end

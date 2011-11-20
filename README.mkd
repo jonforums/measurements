@@ -23,11 +23,11 @@ administrator level shell.
 1. Clone the [GitHub repo](http://github.com/jonforums/measurements)
    (or extract a [zipball](http://github.com/jonforums/measurements/zipball/master))
    via `git clone git://github.com/jonforums/measurements.git`
-2. Change to the directory from step (1) and edit the `config.yml` file to your
+2. Change to the directory from step (1) and edit the `config.rb` file to your
    liking. If you want to perform API Tracing on Windows via the `trace` command,
    download [Process Monitor](http://technet.microsoft.com/en-us/sysinternals/bb896645),
    extract it to a directory, and enter that absolute directory path into the
-   `:tracer:` section of `config.yml`, similar to the project's default. If you
+   `:tracer:` section of `config.rb`, similar to the project's default. If you
    want to perform profiling on Windows, configure the `:profiler:` section.
    Currently, only support for [VTune AmplifierXE](http://software.intel.com/en-us/articles/intel-vtune-amplifier-xe/)
    has been implemented.
@@ -192,7 +192,7 @@ where 'exec' CMD_OPTS are:
 #### How do I easily profile a workload but not use the manual `exec --pause` method?
 
 Assuming you have a a profiler provider properly configured in
-`config.yml`, you can run something similar to:
+`config.rb`, you can run something similar to:
 
     C:\measurements>rci --disable-gems profile core_pi
     [INFO] running 'AmplifierXE' profile provider
@@ -205,7 +205,7 @@ Assuming you have a a profiler provider properly configured in
 
 #### How do I extend the workload execution time to get more profiling data?
 
-Edit the `:extended_iterations` value in `config.yml` and run something
+Edit the `:extended_iterations` value in `config.rb` and run something
 similar to:
 
     C:\measurements>rci --disable-gems profile core_rd_filelines_lf --extended
@@ -235,4 +235,3 @@ similar to:
 * support both system and user `workloads` and `input` working dirs
 * implement basic benchmarking statistics
 * implement cmd line regex workload matching for benchmarking
-* gemify?
