@@ -34,10 +34,10 @@ module Inquisitor
       puts " * #{File.basename(f)[/(\w*)/]}"
     end
 
-    user_workloads = RCI::USER_CONFIG[:dirs][:my_workloads]
-    if File.exists?(user_workloads)
+    user_workloads = Dir.glob("#{RCI::USER_CONFIG[:dirs][:my_workloads]}/*.rb")
+    if user_workloads.size > 0
       puts "\n=== My Workloads ===\n\n"
-      Dir.glob(File.join(user_workloads, '*.rb')) do |f|
+      user_workloads.each do |f|
         puts " * #{File.basename(f)[/(\w*)/]}"
       end
     end
@@ -75,6 +75,7 @@ module Inquisitor
     # TODO implement benchmarking regex selectable workloads
     targets = case workload
               when /\Aall\z/
+                # FIXME include all user workloads that exists
                 Dir.glob("#{File.join(RCI::WORLD_CONFIG[:core_workloads], '*.rb')}")
               else
                 [ workload_target('bench', workload) ]
