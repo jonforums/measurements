@@ -11,9 +11,9 @@ custom workloads for your needs. Either create a new core workload by dropping
 a `.rb` workload file into the `workloads` subdirectory, or create **custom workloads**
 by:
 
-1. create a directory for your `.rb` workload files
-2. set the directory from (1) as the value of `:my_workloads` in `config.rb`
-3. write workloads in `.rb` files and drop them into the directory from (1)
+1. creating a directory for your `.rb` workload files
+2. setting the directory from (1) as the value of `:my_workloads` in `config.rb`
+3. writing workloads in `.rb` files and drop them into the directory from (1)
 
 Once you've got your workloads and `config.rb` configuration correct, use the
 `rci` runner to interrogate your code.
