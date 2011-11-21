@@ -5,18 +5,26 @@ Currently benchmarking, API tracing, and controlled execution for use with
 code profiling is envisioned.
 
 The project's goal is to keep as much of the boilerplate setup and driver code
-needed to automate benchmarking, API tracing, and profiling out of the actual
-code you want to test. Ideally, you write a `.rb` containing the code you want
-to test, drop the `.rb` file into the `workloads` subdirectory, and use the
-`rci` runner to help benchmark, API trace, or execute the code.
+needed to automate benchmarking, API tracing, and profiling out of your test
+code. RCI provides a set of **core workloads**, but you'll likely want to create
+custom workloads for your needs. Either create a new core workload by dropping
+a `.rb` workload file into the `workloads` subdirectory, or create **custom workloads**
+by:
 
-Custom plugins can be created by dropping an `.rb` file starting with the code
-`require 'rci'` into the `plugins` subdirectory. The plugin can count on all
-framework configuration being complete before the plugin is loaded. The plugin
-is loaded before any COMMAND is executed.
+1. create a directory for your `.rb` workload files
+2. set the directory from (1) as the value of `:my_workloads` in `config.rb`
+3. write workloads in `.rb` files and drop them into the directory from (1)
 
-Using the `trace` or `profile` commands typically requires the use of an
-administrator level shell.
+Once you've got your workloads and `config.rb` configuration correct, use the
+`rci` runner to interrogate your code.
+
+Custom plugins are created by dropping an `.rb` file (starting with `require 'rci'`)
+into the `plugins` subdirectory. The plugin can count on all framework
+configuration being complete before the plugin is loaded, and the plugin is
+loaded before any COMMAND is executed.
+
+Note that using the `trace` or `profile` commands typically requires you to use
+an administrator level shell.
 
 ## Setup and Configuration
 
@@ -75,8 +83,8 @@ where 'exec' CMD_OPTS are:
 #### What core workloads are available?
 
     C:\measurements>rci ls
-    
-    === Known Workloads ===
+
+    === Core Workloads ===
 
      * core_brd_filelines_crlf
      * core_brd_filelines_lf
@@ -85,6 +93,29 @@ where 'exec' CMD_OPTS are:
      * core_rd_filelines_lf
      * core_require_empty
      * core_require_nested
+
+#### How do I list all my custom workloads?
+
+Assuming you've correctly configured `:my_workloads` in your `config.rb` file to
+point to the directory containing your `.rb` workload files, it's as simple as:
+
+    C:\measurements>rci ls
+
+    === Core Workloads ===
+
+     * core_brd_filelines_crlf
+     * core_brd_filelines_lf
+     * core_pi
+     * core_rd_filelines_crlf
+     * core_rd_filelines_lf
+     * core_require_empty
+     * core_require_nested
+
+    === My Workloads ===
+
+     * super_fast_require
+     * fast_io_write
+     * fast_malloc
 
 #### How do I benchmark a workload?
 
