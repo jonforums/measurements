@@ -1,5 +1,6 @@
 input/
 logs/
+my-workloads/
 plugins/
 !workloads/core_*.rb
 !input/core_*.rb
