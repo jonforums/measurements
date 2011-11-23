@@ -75,8 +75,8 @@ module Inquisitor
     # TODO implement benchmarking regex selectable workloads
     targets = case workload
               when /\Aall\z/
-                # FIXME include all user workloads that exists
-                Dir.glob("#{File.join(RCI::WORLD_CONFIG[:core_workloads], '*.rb')}")
+                Dir.glob("#{File.join(RCI::WORLD_CONFIG[:core_workloads], '*.rb')}") +
+                Dir.glob("#{File.join(RCI::USER_CONFIG[:dirs][:my_workloads], '*.rb')}")
               else
                 [ workload_target('bench', workload) ]
               end
